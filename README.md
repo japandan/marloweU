@@ -11,4 +11,4 @@ them using an R OrgMassSpecR::digest function that digests with Trypsin.
 The MARLOWE algorithm takes output data from MassSpectrometry performed on an unknown sample.
 It trys to find likely organisms which are contained in the sample.
 
-In addition, I am including documentation and R functions to build the R environment and MySQL database.
+In addition, I am including documentation and R functions to build the R environment and MySQL database on Linux.
