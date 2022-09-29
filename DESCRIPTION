@@ -12,10 +12,10 @@ LazyData: true
 URL: https://github.com/japandan/marloweU
 BugReports: https://github.com/japandan/marloweU/issues
 Suggests: 
-    testthat (>= 2.3.2),                                                                                                                                                      
-    knitr (>= 1.28),                                                                                                                                                          
-    rmarkdown (>= 2.3),                                                                                                                                                       
-    lifecycle (>= 0.2.0)                                                                                                                                                      
+    testthat (>= 3.0.0),
+    knitr (>= 1.28),
+    rmarkdown (>= 2.3),
+    lifecycle (>= 0.2.0)
 VignetteBuilder: knitr                                                                                                                                                        
 Imports: 
     MakeSearchSim (>= 3.3.0),                                                                                                                                                 
@@ -37,3 +37,4 @@ Imports:
     purrr (>= 0.3.4)                                                                                                                                                          
 Roxygen: list(markdown = TRUE)   
 RoxygenNote: 7.2.1
+Config/testthat/edition: 3
