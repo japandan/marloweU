@@ -27,6 +27,7 @@ parse_fasta <- function(input_file,
                       hydrogen_mass = 1.00727646627){
 
 
+  getwd()
   #checking inputs
   assertthat::assert_that(file.exists(input_file),
                           msg = "input_file not found.")
