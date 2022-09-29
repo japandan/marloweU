@@ -1,5 +1,7 @@
 # marloweU
-What the Package Does (Title Case)
+Create a new Candidate MySql database with source data from Uniprot. 
+The package contains a function to extract data fields from UniProt FASTA files and build rData files which 
+are imported into a complex MariaDB/MySQL database for use with MARLOWE.
 
 This is my attempt at an extension of the MARLOWE code developed by PNNL.
 Their program uses a Candidate MySql database which was constructed by digesting .ent
@@ -9,6 +11,4 @@ them using an R OrgMassSpecR::digest function that digests with Trypsin.
 The MARLOWE algorithm takes output data from MassSpectrometry performed on an unknown sample.
 It trys to find likely organisms which are contained in the sample.
 
-My goal is to create a new Candidate MySql database with source data from Uniprot.
-I also may digest the amino acid sequences using multiple proteases creating options for searches
-when the sample has been digested something besides Trypsin.
+In addition, I am including documentation and R functions to build the R environment and MySQL database.
