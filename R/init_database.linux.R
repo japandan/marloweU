@@ -15,12 +15,22 @@
 #'
 #'@export
 
-library(MakeSearchSim)                                                                                                     
-library(CandidateSearchDatabase)                                                                                           
-library(OrgIDPipeline)                                                                                                     
-library(tidyverse)                                                                                                         
-library(magrittr)                                                                                                                           
-        
+#library(MakeSearchSim)
+#library(CandidateSearchDatabase)
+#library(OrgIDPipeline)
+
+# MySQL connection credentials.  These need to match your installation
+conn_list <- list(
+  "dbname"= "candidate",
+  "host" = "localhost",
+  "port" = 3306,
+  "user" = "<user>",
+  "password" = "<password>"
+)
+
+library(tidyverse)
+library(magrittr)
+
 delete_database <- function(conn, force=F) {
   #validate the the user really wants to delete the database
   if(!is.logical(force) | !isTRUE(force)) {
