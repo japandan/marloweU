@@ -1,0 +1,34 @@
+[mysqld]
+#datadir = /db
+# Adding INNODB parameters to support MARLOWE
+# PNNL has 8M for this...unknown command error
+innodb_log_buffer_size = 8M
+
+# PNNL recommends making this VERY big.. Default was 8M.  Change to 128G
+innodb_buffer_pool_size = 128G
+
+# PNNL recommends 1G for this.  Default was 48M
+innodb_log_file_size = 1G
+
+# PNNL has 33 for this value
+innodb_thread_concurrency = 49
+
+# PNNL recommends change to 16.  Perhaps can increase for better performance.
+innodb_buffer_pool_instances = 16
+
+# PNNL recommends change to 10M from 256K.
+sort_buffer_size = 10M
+
+## PNNL added rename for portability
+general_log_file = "MASSSPEC.log"
+
+# PNNL has 8G for this one...
+tmp_table_size = 13G
+
+# PNNL has 13G for this value
+myisam_sort_buffer_size = 26G
+
+# PNNL has 12M for this
+key_buffer_size = 23M
+
+
