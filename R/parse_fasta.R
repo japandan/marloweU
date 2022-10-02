@@ -21,6 +21,13 @@
 #' @importFrom OrgMassSpecR Digest
 #' @importFrom stringr str_match str_trim str_replace_all str_extract_all str_match_all
 #' @importFrom assertthat assert_that
+
+# CRITICAL FIELDS TO EXTRACT FROM FASTA
+#protein_id
+#name
+#organism
+#aa-count
+#aa-sequence
 parse_fasta <- function(input_file,
                       output_dir,
                       return_list = FALSE,
