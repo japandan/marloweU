@@ -28,6 +28,11 @@
 #organism
 #aa-count
 #aa-sequence
+library( Biostrings )
+library( Vector )
+# Function to read FASTA aa file
+#Biostrings::readAAStringSet("tmp.fa") 
+
 parse_fasta <- function(input_file,
                       output_dir,
                       return_list = FALSE,
