@@ -1,0 +1,8 @@
+Mnemonic name CHLPN
+Taxon ID 138677
+Scientific name Chlamydia pneumoniae J138
+Parent Chlamydia pneumoniae
+Other names Chlamydia pneumoniae (strain J138) Chlamydophila pneumoniae J138
+Rank no rank
+Lineage cellular organisms > Bacteria (eubacteria) > PVC group > Chlamydiae > Chlamydiia > Chlamydiales > Chlamydiaceae > Chlamydia/Chlamydophila group > Chlamydia > Chlamydia pneumoniae
+Links www.ncbi.nlm.nih.gov
