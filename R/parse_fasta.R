@@ -29,12 +29,11 @@
 #aa-count
 #aa-sequence
 library( Biostrings )
-library( Vector )
-# Function to read FASTA aa file
-#Biostrings::readAAStringSet("tmp.fa") 
+#library( Vector )
+
 
 parse_fasta <- function(input_file,
-                      output_dir,
+                      output_dir=".",
                       return_list = FALSE,
                       hydrogen_mass = 1.00727646627){
 
@@ -48,4 +47,34 @@ parse_fasta <- function(input_file,
   assertthat::assert_that((is.numeric(hydrogen_mass)),
                           msg = "hydrogen_mass needs to be a numeric number")
 
+  # Function to read FASTA aa file
+  fasta_list <- Biostrings::readAAStringSet(input_file)
+  str( fasta_list )
+  names( fasta_list )
+
+
+
+
+
+  # temporary set the info to the fasta_list so something is returned
+  organism_info <- fasta_list
+
+  # Toggle the return of the organism_info based on parameter return_list
+  if (return_list) {
+    return(organism_info)
+  } else{
+    invisible(input_file)
+  }
+
+
 }
+
+# test code for the function.  Convert to assetthat test later
+
+fasta <- parse_fasta( "data-raw/uniprot/castor.head.fasta",return_list = TRUE)
+names( fasta )
+length( fasta )
+
+fasta <- parse_fasta( "data-raw/uniprot/castor.fasta",return_list = TRUE)
+names( fasta )
+length( fasta )
