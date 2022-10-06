@@ -39,7 +39,7 @@ parse_ent <- function(input_file,
 
   print(paste0("Starting file: ", basename(input_file), " at ", Sys.time()))
 
-  start_time <- Sys.time()
+    start_time <- Sys.time()
 
   raw <- read_file(input_file)
 
