@@ -22,15 +22,38 @@
 #' @importFrom stringr str_match str_trim str_replace_all str_extract_all str_match_all
 #' @importFrom assertthat assert_that
 
+
+library( Biostrings )
+library( S4Vectors )
+
 # CRITICAL FIELDS TO EXTRACT FROM FASTA
 #protein_id
 #name
 #organism
 #aa-count
 #aa-sequence
-library( Biostrings )
-#library( Vector )
 
+# UniProtKB Fasta headers
+#
+# Example:
+# >db|UniqueIdentifier|EntryName ProteinName OS=OrganismName OX=OrganismIdentifier [GN=GeneName ]PE=ProteinExistence SV=SequenceVersion
+#
+# Actual Examples from a UniProt Fasta file.  Note that there are | delimiters, positional, and named column
+# >sp|O65039|CYSEP_RICCO Vignain OS=Ricinus communis OX=3988 GN=CYSEP PE=1 SV=1
+# >sp|B9RK42|GPC1_RICCO Glycerophosphocholine acyltransferase 1 OS=Ricinus communis OX=3988 GN=GPC1 PE=1 SV=1
+# >sp|B9RU15|ATXR5_RICCO Probable Histone-lysine N-methyltransferase ATXR5 OS=Ricinus communis OX=3988 GN=ATXR5 PE=1 SV=1
+#
+# Where:
+#
+# db is 'sp' for UniProtKB/Swiss-Prot and 'tr' for UniProtKB/TrEMBL.
+# UniqueIdentifier is the primary accession number of the UniProtKB entry.
+# EntryName is the entry name of the UniProtKB entry.
+# ProteinName is the recommended name of the UniProtKB entry as annotated in the RecName field. For UniProtKB/TrEMBL entries without a RecName field, the SubName field is used. In case of multiple SubNames, the first one is used. The 'precursor' attribute is excluded, 'Fragment' is included with the name if applicable.
+# OrganismName is the scientific name of the organism of the UniProtKB entry.
+# OrganismIdentifier is the unique identifier of the source organism, assigned by the NCBI.
+# GeneName is the first gene name of the UniProtKB entry. If there is no gene name, OrderedLocusName or ORFname, the GN field is not listed.
+# ProteinExistence is the numerical value describing the evidence for the existence of the protein.
+# SequenceVersion is the version number of the sequence.
 
 parse_fasta <- function(input_file,
                       output_dir=".",
@@ -49,9 +72,7 @@ parse_fasta <- function(input_file,
 
   # Function to read FASTA aa file
   fasta_list <- Biostrings::readAAStringSet(input_file)
-  str( fasta_list )
-  names( fasta_list )
-
+  print(paste0(basename(input_file), " has ", length(fasta_list), " entries."))
 
 
 
@@ -72,9 +93,8 @@ parse_fasta <- function(input_file,
 # test code for the function.  Convert to assetthat test later
 
 fasta <- parse_fasta( "data-raw/uniprot/castor.head.fasta",return_list = TRUE)
-names( fasta )
-length( fasta )
+names( fasta[1] )
+str( fasta[1] )
 
 fasta <- parse_fasta( "data-raw/uniprot/castor.fasta",return_list = TRUE)
-names( fasta )
-length( fasta )
+

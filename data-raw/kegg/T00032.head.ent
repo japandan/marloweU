@@ -1,0 +1,137 @@
+ENTRY       CPj0001           CDS       T00032
+NAME        CPj0001
+DEFINITION  (GenBank) CT001 hypothetical protein
+ORTHOLOGY   K09779  uncharacterized protein
+ORGANISM    cpj  Chlamydia pneumoniae J138
+BRITE       KEGG Orthology (KO) [BR:cpj00001]
+             09190 Not Included in Pathway or Brite
+              09194 Poorly characterized
+               99997 Function unknown
+                CPj0001 (CPj0001)
+POSITION    complement(1..282)
+MOTIF       Pfam: DUF378 DUF2614 DUF3149 CSG2
+DBLINKS     NCBI-ProteinID: BAA98211
+AASEQ       93
+            MLGKIIRGLSSLIVILCALNVGLIGITHNKLNIIAKLCGGVSTPATQITYIIIGIAGVIC
+            LLSFCPFCSKKSRHSHGDSCSSGGCHSHHSDKN
+NTSEQ       282
+            atgctaggcaaaattattcgaggattatcctctcttattgttattctttgtgcattgaac
+            gtgggacttataggaatcactcacaataaattaaatattattgctaagttgtgtggaggc
+            gtttctactcctgccacccaaattacctatattatcattggaattgctggtgtcatttgc
+            ttgctaagcttttgtcctttctgcagcaagaagtcccgtcattcacacggagacagctgc
+            tcttcaggaggctgccactctcatcattctgacaaaaattag
+///
+ENTRY       gatC              CDS       T00032
+NAME        gatC
+DEFINITION  (GenBank) Glu-tRNA Gln amidotransferase (C subunit)
+ORTHOLOGY   K02435  aspartyl-tRNA(Asn)/glutamyl-tRNA(Gln) amidotransferase subunit C [EC:6.3.5.6 6.3.5.7]
+ORGANISM    cpj  Chlamydia pneumoniae J138
+PATHWAY     cpj00970  Aminoacyl-tRNA biosynthesis
+            cpj01100  Metabolic pathways
+BRITE       KEGG Orthology (KO) [BR:cpj00001]
+             09120 Genetic Information Processing
+              09122 Translation
+               00970 Aminoacyl-tRNA biosynthesis
+                gatC (gatC)
+             09180 Brite Hierarchies
+              09182 Protein families: genetic information processing
+               03029 Mitochondrial biogenesis [BR:cpj03029]
+                gatC (gatC)
+            Enzymes [BR:cpj01000]
+             6. Ligases
+              6.3  Forming carbon-nitrogen bonds
+               6.3.5  Carbon-nitrogen ligases with glutamine as amido-N-donor
+                6.3.5.6  asparaginyl-tRNA synthase (glutamine-hydrolysing)
+                 gatC (gatC)
+                6.3.5.7  glutaminyl-tRNA synthase (glutamine-hydrolysing)
+                 gatC (gatC)
+            Mitochondrial biogenesis [BR:cpj03029]
+             Mitochondrial DNA transcription, translation, and replication factors
+              Mitochondrial transcription and translation factors
+               Other mitochondrial DNA transcription and translation factors
+                gatC (gatC)
+POSITION    573..878
+MOTIF       Pfam: Glu-tRNAGln DUF2150 Gag_spuma AEP1
+DBLINKS     NCBI-ProteinID: BAA98212
+            UniProt: Q9Z9G8
+AASEQ       101
+            MEQFHLDREEILLLAKASALQLSEELIQEYQTSLSAVITSMKEALAIEIDDADSCESLFM
+            HVVNVEDLREDSVTSDFNREEFLRNVPESLGGLVKVPAVIK
+NTSEQ       306
+            atggagcaatttcatttggatagggaagaaattttacttttggcaaaggcctcagcacta
+            caactttctgaagagcttatccaggagtatcaaacttctttaagcgctgtgattacttct
+            atgaaagaagctcttgccatagagattgatgatgcggattcatgcgaatctctttttatg
+            catgtagtaaatgttgaagatttgagagaagattcggtgacctctgatttcaatcgagag
+            gaatttttgcgtaatgttccagagtctttagggggattagtgaaagttcctgcggtaatc
+            aagtaa
+///
+ENTRY       gatA              CDS       T00032
+NAME        gatA
+DEFINITION  (GenBank) Glu tRNA Gln amidotransferae (A subunit)
+ORTHOLOGY   K02433  aspartyl-tRNA(Asn)/glutamyl-tRNA(Gln) amidotransferase subunit A [EC:6.3.5.6 6.3.5.7]
+ORGANISM    cpj  Chlamydia pneumoniae J138
+PATHWAY     cpj00970  Aminoacyl-tRNA biosynthesis
+            cpj01100  Metabolic pathways
+BRITE       KEGG Orthology (KO) [BR:cpj00001]
+             09120 Genetic Information Processing
+              09122 Translation
+               00970 Aminoacyl-tRNA biosynthesis
+                gatA (gatA)
+             09180 Brite Hierarchies
+              09182 Protein families: genetic information processing
+               03029 Mitochondrial biogenesis [BR:cpj03029]
+                gatA (gatA)
+            Enzymes [BR:cpj01000]
+             6. Ligases
+              6.3  Forming carbon-nitrogen bonds
+               6.3.5  Carbon-nitrogen ligases with glutamine as amido-N-donor
+                6.3.5.6  asparaginyl-tRNA synthase (glutamine-hydrolysing)
+                 gatA (gatA)
+                6.3.5.7  glutaminyl-tRNA synthase (glutamine-hydrolysing)
+                 gatA (gatA)
+            Mitochondrial biogenesis [BR:cpj03029]
+             Mitochondrial DNA transcription, translation, and replication factors
+              Mitochondrial transcription and translation factors
+               Other mitochondrial DNA transcription and translation factors
+                gatA (gatA)
+POSITION    895..2373
+MOTIF       Pfam: Amidase GA-like
+DBLINKS     NCBI-ProteinID: BAA98213
+            UniProt: Q9Z9G7
+AASEQ       492
+            MYRYSALELAKAVTLGELTATGVTQHFFHRIEEAEGQVGAFISLCKEQALEQAELIDKKR
+            SRGEPLGKLAGVPVGIKDNIHVTGLKTTCASRVLENYQPPFDATVVERIKKEDGIILGKL
+            NMDEFAMGSTTLYSAFHPTHNPWDLSRVPGGSSGGSAAAVSARFCPVALGSDTGGSIRQP
+            AAFCGVVGFKPSYGAVSRYGLVAFASSLDQIGPLANTVEDVALMMDVFSGRDPKDATSRE
+            FFRDSFMSKLSTEVPKVIGVPRTFLEGLRDDIRENFFSSLAIFEGEGTHLVDVELDILSH
+            AVSIYYILASAEAATNLARFDGVRYGYRSPQAHTISQLYDLSRGEGFGKEVMRRILLGNY
+            VLSAERQNVYYKKATAVRAKIVKAFRTAFEKCEILAMPVCSSPAFEIGEILDPVTLYLQD
+            IYTVAMNLAYLPAIAVPSGFSKEGLPLGLQIIGQQGQDQQVCQVGYSFQEHAQIKQLFSK
+            RYAKSVVLGGQS
+NTSEQ       1479
+            atgtatcgatatagtgctttagaattagcaaaagctgtgactttaggggaactgacagcc
+            acaggggtgactcaacatttttttcatagaatagaagaagctgaggggcaggtaggtgcc
+            tttatttccttgtgtaaggaacaagctttagaacaggcagagctcatagataaaaagcgt
+            tcgcgtggagaacctttaggaaaactcgcaggtgttcctgtaggaattaaagataatatt
+            cacgttacaggcctgaagacaacatgcgcctctcgtgtgctcgagaattatcaaccaccg
+            tttgatgctactgttgtagaaagaatcaaaaaagaagatgggattatcttaggcaaactc
+            aatatggatgagtttgctatgggatcaacaacgctatattctgcttttcatcctacccac
+            aacccctgggatttatctcgtgttcctggaggttcttcagggggatctgcggccgcagtt
+            tctgctagattttgtcccgtagccctaggatcagataccggaggatccatccgtcagccc
+            gcagcattttgtggtgttgtaggttttaagccttcctacggagccgtttcgcgttacggg
+            cttgtagcctttgcctcttcgctagatcaaatcggtcctttagccaatactgtagaagac
+            gtcgccctaatgatggatgtgttttctggtagagatcctaaagatgcaacctcaagagag
+            tttttccgtgattcttttatgagcaagttgtctacggaggttcctaaagtgattggggtg
+            cctagaacatttttagagggactccgtgatgatattagggagaatttcttctcttcatta
+            gccatttttgaaggagaaggaacccatcttgtggatgtggagttggatattctcagccac
+            gctgtatctatatattacattttagcatctgctgaagctgccacgaatttagcaaggttc
+            gatggggtgcgttatggatatcgttctcctcaagcgcataccatcagccaactctacgat
+            ctctcacgtggagaaggatttggcaaagaggtcatgcgcagaatcctcttagggaactat
+            gtcttgtctgcggagagacagaatgtttattataagaaagctacggcagtgcgtgctaag
+            attgtaaaagcatttagaactgcatttgaaaagtgtgaaatcttagccatgcccgtctgt
+            tctagccccgcgtttgaaataggagaaattctagatcctgtgactttatatctacaggat
+            atctatactgtagctatgaatttagcgtatcttcctgccattgccgtaccctctggattt
+            tctaaggagggcctgcccttaggcctacagattatcggacagcaaggacaagaccaacaa
+            gtgtgccaagtgggttacagtttccaagagcatgcgcaaattaagcaattgttttctaag
+            agatatgccaaaagtgttgttctaggaggtcaatcatga
+///
