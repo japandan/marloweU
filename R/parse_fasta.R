@@ -63,24 +63,26 @@ parse_fasta <- function(input_file,
                       hydrogen_mass = 1.00727646627){
 
 
-  getwd()
   #checking inputs
-  assertthat::assert_that(file.exists(input_file),
-                          msg = "input_file not found.")
-  assertthat::assert_that(dir.exists(output_dir),
-                          msg = "output_dir not found.")
-  assertthat::assert_that((is.numeric(hydrogen_mass)),
-                          msg = "hydrogen_mass needs to be a numeric number")
+  assertthat::assert_that(file.exists(input_file), msg = "input_file not found.")
+  assertthat::assert_that(dir.exists(output_dir), msg = "output_dir not found.")
+  assertthat::assert_that((is.numeric(hydrogen_mass)), msg = "hydrogen_mass needs to be a numeric number")
 
   # Function to read FASTA aa file
   fasta_list <- Biostrings::readAAStringSet(input_file)
   print(paste0(basename(input_file), " has ", length(fasta_list), " entries."))
 
-  columns <-strsplit( names(fasta_list),"\\|")[[1]]. #splits into columns db,UniqueIdentifier, and then multiple fields
-  UniqueIdentifier <- sapply( columns, "[", 2 ). #get accession info into a vector
+  # Break apart the names row into variables...splits into columns db,UniqueIdentifier, and then multiple fields
+  columns <-strsplit( names(fasta_list),"\\|")
+  print( columns )
+
+  UniqueIdentifier <- sapply( columns, "[", 2 )
   print(paste0( "UniqueIdenifier has ", length(UniqueIdentifier), " entries."))
-  protein_nfo <-sapply( columns, "[", 3 )  # This vector needs to be split to get EntryName,etc
+  print( UniqueIdentifier)
+
+  protein_info <-sapply( columns, "[", 3 )
   print(paste0( "protein_info has ", length(protein_info), " entries."))
+  print( protein_info)
   #
   # we need to split protein info into EntryName<space>ProteinName<space>OS=xxx OX=##### GN=xxxxxPE=# SV=#
   # The ProteinName can contain spaces so this is a little tricky
@@ -100,11 +102,12 @@ parse_fasta <- function(input_file,
 
 }
 
-# test code for the function.  Convert to assetthat test later
 
+
+# test code for the function.  Convert to assetthat test later
 fasta <- parse_fasta( "data-raw/uniprot/castor.head.fasta",return_list = TRUE)
-names( fasta[1] )
-str( fasta[1] )
+names( fasta )
+#str( fasta )
 
 fasta <- parse_fasta( "data-raw/uniprot/castor.fasta",return_list = TRUE)
 
