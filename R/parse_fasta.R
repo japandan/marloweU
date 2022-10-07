@@ -46,7 +46,9 @@ library( S4Vectors )
 # Where:
 #
 # db is 'sp' for UniProtKB/Swiss-Prot and 'tr' for UniProtKB/TrEMBL.
+# | separator
 # UniqueIdentifier is the primary accession number of the UniProtKB entry.
+# | separator
 # EntryName is the entry name of the UniProtKB entry.
 # ProteinName is the recommended name of the UniProtKB entry as annotated in the RecName field. For UniProtKB/TrEMBL entries without a RecName field, the SubName field is used. In case of multiple SubNames, the first one is used. The 'precursor' attribute is excluded, 'Fragment' is included with the name if applicable.
 # OrganismName is the scientific name of the organism of the UniProtKB entry.
@@ -74,6 +76,14 @@ parse_fasta <- function(input_file,
   fasta_list <- Biostrings::readAAStringSet(input_file)
   print(paste0(basename(input_file), " has ", length(fasta_list), " entries."))
 
+  columns <-strsplit( names(fasta_list),"\\|")[[1]]. #splits into columns db,UniqueIdentifier, and then multiple fields
+  UniqueIdentifier <- sapply( columns, "[", 2 ). #get accession info into a vector
+  print(paste0( "UniqueIdenifier has ", length(UniqueIdentifier), " entries."))
+  protein_nfo <-sapply( columns, "[", 3 )  # This vector needs to be split to get EntryName,etc
+  print(paste0( "protein_info has ", length(protein_info), " entries."))
+  #
+  # we need to split protein info into EntryName<space>ProteinName<space>OS=xxx OX=##### GN=xxxxxPE=# SV=#
+  # The ProteinName can contain spaces so this is a little tricky
 
 
 
