@@ -1,0 +1,64 @@
+---
+title: "Survey DeNovo"
+author: "Daniel Vogel"
+date: '2022-10-07'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library( data.table )
+library( tidyverse )
+library( magrittr )
+```
+
+## Survey DeNovo Data
+
+This will produce a data report for use in the documentation
+
+```{r fileslist}
+peaks_path <-"../data-raw/PEAKS"
+
+check_peaks_data <-function( peaks_file ){
+ data_file <- read.csv2( peaks_file, sep="," )
+ columns <- base::colnames( data_file )
+ rowcount <- nrow( data_file ) - 1
+ print( data_file )
+ print( rowcount )
+ print( length( columns ))
+ print( unlist(columns ))
+}
+
+data_files<-list.files(path = peaks_path, pattern = "*.csv", full.names=TRUE)
+cat(c("There are", length(data_files),"data files"))
+data_files
+file1 <- check_peaks_data( data_files[1] )
+
+file1
+
+myfiles = sapply(data_files, check_peaks_data)
+myfiles
+
+# read a variable with all of the headers from uniref50 so we can determine how many organisms
+uniref <-readRDS( "/nbacc/uniref50_names.rds")
+head( uniref )
+#"UniRef50_A0A5A9P0L4 Peptidylprolyl isomerase n=1 Tax=Triplophysa tibetana TaxID=1572043 RepID=A0A5A9P0L4_9TELE"
+#"UniRef50_A0A410P257 Glycogen synthase n=2 Tax=Candidatus Velamenicoccus archaeovorus TaxID=1930593 RepID=A0A410P257_9BACT"
+#"UniRef50_A0A8J3NBY6 Uncharacterized protein n=2 Tax=Actinocatenispora rupis TaxID=519421 RepID=A0A8J3NBY6_9ACTN"
+#"UniRef50_Q8WZ42 Titin n=2871 Tax=Vertebrata TaxID=7742 RepID=TITIN_HUMAN"
+#"UniRef50_A0A401TRQ8 Uncharacterized protein (Fragment) n=2 Tax=Chiloscyllium TaxID=34767 RepID=A0A401TRQ8_CHIPU"
+#"UniRef50_A0A6J2WDG0 titin n=196 Tax=cellular organisms TaxID=131567 RepID=A0A6J2WDG0_CHACN"
+# Tax=Delphacidae TaxID=33362
+# let's try to pull the TaxID out to determine how many different organism
+
+#Split twice?
+#TaxID <-strsplit( uniref,"TaxID=")
+#sapply(TaxID,"[[",2)
+# Better option is to use RegEx
+TaxID <- stringr::str_match( uniref, "TaxID=([0-9][0-9]+)")
+TaxID_table <- table( TaxID[,2])
+
+
+
+
+```
