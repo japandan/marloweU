@@ -65,26 +65,26 @@ parse_fasta <- function(input_file,
 
   # Function to read FASTA aa file
   fasta_list <- Biostrings::readAAStringSet( input_file )
-  print(paste0("File ", basename(input_file), " has ", length( fasta_list), " entries."))
+  #print(paste0("File ", basename(input_file), " has ", length( fasta_list), " entries."))
 
   #protein_id. <- UniqueIdentifier
   entry_id <- stringr::word( names(fasta_list), 1 )
-  print( paste0("entry_id: ", entry_id) )
+  #print( paste0("entry_id: ", entry_id) )
 
   #name <- ClusterName
   name <-  stringr::str_match( names(fasta_list), "\\s(.+)\\sn=")
-  print( paste0("name: ",name[2]) )
+  #print( paste0("name: ",name[2]) )
 
   #organism <-- Tax=TaxonName
   organism <- stringr::str_match( names(fasta_list), "Tax=(.+)\\sTaxID=")
-  print( paste0("organism: ",organism[2]))
+  #print( paste0("organism: ",organism[2]))
 
   #aa_count
-  aa_count <- width( fasta_list )
+  aa_count <- width( fasta_list )#
   #print( paste0("aa_count:", aa_count ))
   #aa_sequence
   aaseq <- toString( fasta_list )
-  print( paste0("aaseq", aaseq ))
+  #print( paste0("aaseq", aaseq ))
 
 
   #binding the results from each regular expression into one big matrix
@@ -126,7 +126,7 @@ parse_fasta <- function(input_file,
 matrix <- parse_fasta( "data-raw/uniprot/castor.bean.protein.fasta", return_list = TRUE )
 matrix
 
-castor_matrix <- parse_fasta( "data-raw/uniprot/castor.bean.taxid.3988.uniref.fasta", return_list = TRUE)
+castor_matrix <- parse_fasta( "/nbacc/uniprot/castor.bean.taxid.3988.uniref.fasta", return_list = TRUE)
 dim(castor_matrix)
 # show the first 5 entries, without the aaseq.
 # we need to examine the aaseq returned to ensure multiple sequences are correct aa_count, etc
