@@ -1,4 +1,4 @@
-#' Parse a UniProt FASTA file
+#' Parse a UniProt uniref FASTA file
 #'
 #' @param input_file path to the input file
 #' @param output_dir directory to write the output file, name will be the name
@@ -26,36 +26,31 @@
 library( Biostrings )
 library( S4Vectors )
 
-# CRITICAL FIELDS TO EXTRACT FROM FASTA
-#protein_id
-#name
-#organism
+# CRITICAL FIELDS TO EXTRACT FROM FASTA and their uniref field name
+#protein_id. <-- UniqueIdentifier
+#name <-- ClusterName
+#organism <-- Tax=TaxonName
 #aa-count
 #aa-sequence
 
-# UniProtKB Fasta headers
-#
-# Example:
-# >db|UniqueIdentifier|EntryName ProteinName OS=OrganismName OX=OrganismIdentifier [GN=GeneName ]PE=ProteinExistence SV=SequenceVersion
-#
-# Actual Examples from a UniProt Fasta file.  Note that there are | delimiters, positional, and named column
-# >sp|O65039|CYSEP_RICCO Vignain OS=Ricinus communis OX=3988 GN=CYSEP PE=1 SV=1
-# >sp|B9RK42|GPC1_RICCO Glycerophosphocholine acyltransferase 1 OS=Ricinus communis OX=3988 GN=GPC1 PE=1 SV=1
-# >sp|B9RU15|ATXR5_RICCO Probable Histone-lysine N-methyltransferase ATXR5 OS=Ricinus communis OX=3988 GN=ATXR5 PE=1 SV=1
+# UniRef fasta fields
+# >UniqueIdentifier ClusterName n=Members Tax=TaxonName TaxID=TaxonIdentifier RepID=RepresentativeMember
 #
 # Where:
 #
-# db is 'sp' for UniProtKB/Swiss-Prot and 'tr' for UniProtKB/TrEMBL.
-# | separator
-# UniqueIdentifier is the primary accession number of the UniProtKB entry.
-# | separator
-# EntryName is the entry name of the UniProtKB entry.
-# ProteinName is the recommended name of the UniProtKB entry as annotated in the RecName field. For UniProtKB/TrEMBL entries without a RecName field, the SubName field is used. In case of multiple SubNames, the first one is used. The 'precursor' attribute is excluded, 'Fragment' is included with the name if applicable.
-# OrganismName is the scientific name of the organism of the UniProtKB entry.
-# OrganismIdentifier is the unique identifier of the source organism, assigned by the NCBI.
-# GeneName is the first gene name of the UniProtKB entry. If there is no gene name, OrderedLocusName or ORFname, the GN field is not listed.
-# ProteinExistence is the numerical value describing the evidence for the existence of the protein.
-# SequenceVersion is the version number of the sequence.
+# UniqueIdentifier is the primary accession number of the UniRef cluster.
+# ClusterName is the name of the UniRef cluster.
+# Members is the number of UniRef cluster members.
+# TaxonName is the scientific name of the lowest common taxon shared by all UniRef cluster members.
+# TaxonIdentifier is the NCBI taxonomy identifier of the lowest common taxon shared by all UniRef cluster members.
+# RepresentativeMember is the entry name of the representative member of the UniRef cluster.
+# e.g.
+#"UniRef50_A0A5A9P0L4 Peptidylprolyl isomerase n=1 Tax=Triplophysa tibetana TaxID=1572043 RepID=A0A5A9P0L4_9TELE"
+#"UniRef50_A0A410P257 Glycogen synthase n=2 Tax=Candidatus Velamenicoccus archaeovorus TaxID=1930593 RepID=A0A410P257_9BACT"
+#"UniRef50_A0A8J3NBY6 Uncharacterized protein n=2 Tax=Actinocatenispora rupis TaxID=519421 RepID=A0A8J3NBY6_9ACTN"
+#"UniRef50_Q8WZ42 Titin n=2871 Tax=Vertebrata TaxID=7742 RepID=TITIN_HUMAN"
+#"UniRef50_A0A401TRQ8 Uncharacterized protein (Fragment) n=2 Tax=Chiloscyllium TaxID=34767 RepID=A0A401TRQ8_CHIPU"
+#"UniRef50_A0A6J2WDG0 titin n=196 Tax=cellular organisms TaxID=131567 RepID=A0A6J2WDG0_CHACN"
 
 parse_fasta <- function(input_file,
                       output_dir=".",
@@ -64,33 +59,56 @@ parse_fasta <- function(input_file,
 
 
   #checking inputs
-  assertthat::assert_that(file.exists(input_file), msg = "input_file not found.")
-  assertthat::assert_that(dir.exists(output_dir), msg = "output_dir not found.")
-  assertthat::assert_that((is.numeric(hydrogen_mass)), msg = "hydrogen_mass needs to be a numeric number")
+  assertthat::assert_that( file.exists(input_file), msg = "input_file not found.")
+  assertthat::assert_that( dir.exists(output_dir),  msg = "output_dir not found.")
+  assertthat::assert_that( ( is.numeric(hydrogen_mass) ), msg = "hydrogen_mass needs to be a numeric number")
 
   # Function to read FASTA aa file
-  fasta_list <- Biostrings::readAAStringSet(input_file)
-  print(paste0(basename(input_file), " has ", length(fasta_list), " entries."))
+  fasta_list <- Biostrings::readAAStringSet( input_file )
+  print(paste0("File ", basename(input_file), " has ", length( fasta_list), " entries."))
 
-  # Break apart the names row into variables...splits into columns db,UniqueIdentifier, and then multiple fields
-  columns <-strsplit( names(fasta_list),"\\|")
-  print( columns )
+  #protein_id. <- UniqueIdentifier
+  entry_id <- stringr::word( names(fasta_list), 1 )
+  print( paste0("entry_id: ", entry_id) )
 
-  UniqueIdentifier <- sapply( columns, "[", 2 )
-  print(paste0( "UniqueIdenifier has ", length(UniqueIdentifier), " entries."))
-  print( UniqueIdentifier)
+  #name <- ClusterName
+  name <-  stringr::str_match( names(fasta_list), "\\s(.+)\\sn=")
+  print( paste0("name: ",name[2]) )
 
-  protein_info <-sapply( columns, "[", 3 )
-  print(paste0( "protein_info has ", length(protein_info), " entries."))
-  print( protein_info)
-  #
-  # we need to split protein info into EntryName<space>ProteinName<space>OS=xxx OX=##### GN=xxxxxPE=# SV=#
-  # The ProteinName can contain spaces so this is a little tricky
+  #organism <-- Tax=TaxonName
+  organism <- stringr::str_match( names(fasta_list), "Tax=(.+)\\sTaxID=")
+  print( paste0("organism: ",organism[2]))
+
+  #aa_count
+  aa_count <- width( fasta_list )
+  #print( paste0("aa_count:", aa_count ))
+  #aa_sequence
+  aaseq <- toString( fasta_list )
+  print( paste0("aaseq", aaseq ))
 
 
+  #binding the results from each regular expression into one big matrix
+  all_info <-
+    cbind(
+      entry_id,
+      name[,2],
+      organism[,2],
+      aa_count,
+      aaseq
+    )
 
-  # temporary set the info to the fasta_list so something is returned
-  organism_info <- fasta_list
+  #adding column names
+  colnames(all_info) <-
+    c(
+      "protein_id",
+      "name",
+      "organism",
+      "aa_count",
+      "aaseq"
+    )
+
+  #rownames(all_info) <- 1:nrow(all_info)
+  organism_info <- all_info
 
   # Toggle the return of the organism_info based on parameter return_list
   if (return_list) {
@@ -105,9 +123,16 @@ parse_fasta <- function(input_file,
 
 
 # test code for the function.  Convert to assetthat test later
-fasta <- parse_fasta( "data-raw/uniprot/castor.head.fasta",return_list = TRUE)
-names( fasta )
-#str( fasta )
+matrix <- parse_fasta( "data-raw/uniprot/castor.bean.protein.fasta", return_list = TRUE )
+matrix
 
-fasta <- parse_fasta( "data-raw/uniprot/castor.fasta",return_list = TRUE)
+castor_matrix <- parse_fasta( "data-raw/uniprot/castor.bean.taxid.3988.uniref.fasta", return_list = TRUE)
+dim(castor_matrix)
+# show the first 5 entries, without the aaseq.
+# we need to examine the aaseq returned to ensure multiple sequences are correct aa_count, etc
+castor_matrix[1:5,1:4]
+
+
+
+
 
