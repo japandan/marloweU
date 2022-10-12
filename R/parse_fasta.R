@@ -65,7 +65,7 @@ parse_fasta <- function(input_file,
 
   # Function to read FASTA aa file
   fasta_list <- Biostrings::readAAStringSet( input_file )
-  #print(paste0("File ", basename(input_file), " has ", length( fasta_list), " entries."))
+  print(paste0("File ", basename(input_file), " has ", length( fasta_list), " entries."))
 
   #protein_id. <- UniqueIdentifier
   entry_id <- stringr::word( names(fasta_list), 1 )
@@ -121,17 +121,25 @@ parse_fasta <- function(input_file,
 }
 
 
+test_parse_fasta <- function() {
 
-# test code for the function.  Convert to assetthat test later
-matrix <- parse_fasta( "data-raw/uniprot/castor.bean.protein.fasta", return_list = TRUE )
-matrix
+  # test code for the function.  Convert to assetthat test later
+  matrix <- parse_fasta( "data-raw/uniprot/castor.bean.protein.fasta", return_list = TRUE )
+  matrix
 
-castor_matrix <- parse_fasta( "/nbacc/uniprot/castor.bean.taxid.3988.uniref.fasta", return_list = TRUE)
-dim(castor_matrix)
-# show the first 5 entries, without the aaseq.
-# we need to examine the aaseq returned to ensure multiple sequences are correct aa_count, etc
-castor_matrix[1:5,1:4]
+  # This file has 14625 protein entries
+  castor_matrix <- parse_fasta( "/nbacc/uniprot/castor.bean.taxid.3988.uniref.fasta", return_list = TRUE)
+  dim(castor_matrix)
+  # show the first 5 entries, without the aaseq.
+  # we need to examine the aaseq returned to ensure multiple sequences are correct aa_count, etc
+  castor_matrix[1:5,1:4]
+}
 
+# run the test with 2 files. Expected output:
+# [1] "File castor.bean.protein.fasta has 1 entries."
+# [1] "File castor.bean.taxid.3988.uniref.fasta has 14625 entries."
+
+#test_parse_fasta()
 
 
 
