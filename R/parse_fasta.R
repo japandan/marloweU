@@ -1,3 +1,5 @@
+#' parse_fasta.R
+
 #' Parse a UniProt uniref FASTA file
 #'
 #' @param input_file path to the input file
@@ -21,34 +23,8 @@
 #' @importFrom OrgMassSpecR Digest
 #' @importFrom stringr str_match str_trim str_replace_all str_extract_all str_match_all
 #' @importFrom assertthat assert_that
-
-
-library( Biostrings )
-library( S4Vectors )
-
-# CRITICAL FIELDS TO EXTRACT FROM FASTA and their uniref field name
+#' @importFrom Biostring readAAStringSet
 #
-#protein_id. <-- UniqueIdentifier
-#name <-- ClusterName
-#organism <-- Tax=TaxonName
-#aa-count
-#aa-sequence
-
-# UniRef fasta fields
-#
-# Where:
-#
-# UniqueIdentifier is the primary accession number of the UniRef cluster.
-# ClusterName is the name of the UniRef cluster.
-# Members is the number of UniRef cluster members.
-# TaxonName is the scientific name of the lowest common taxon shared by all UniRef cluster members.
-# TaxonIdentifier is the NCBI taxonomy identifier of the lowest common taxon shared by all UniRef cluster members.
-# RepresentativeMember is the entry name of the representative member of the UniRef cluster.
-# e.g.
-# >UniqueIdentifier ClusterName n=Members Tax=TaxonName TaxID=TaxonIdentifier RepID=RepresentativeMember
-# >UniRef50_A0A5A9P0L4 Peptidylprolyl isomerase n=1 Tax=Triplophysa tibetana TaxID=1572043 RepID=A0A5A9P0L4_9TELE
-
-
 parse_fasta <- function(input_file,
                       output_dir=".",
                       return_list = FALSE,
@@ -59,6 +35,33 @@ parse_fasta <- function(input_file,
   assertthat::assert_that( file.exists(input_file), msg = "input_file not found.")
   assertthat::assert_that( dir.exists(output_dir),  msg = "output_dir not found.")
   assertthat::assert_that( ( is.numeric(hydrogen_mass) ), msg = "hydrogen_mass needs to be a numeric number")
+
+
+  #library( Biostrings )
+  #library( S4Vectors )
+
+  # CRITICAL FIELDS TO EXTRACT FROM FASTA and their uniref field name
+  #
+  # protein_id. <-- UniqueIdentifier
+  # name <-- ClusterName
+  # organism <-- Tax=TaxonName
+  # aa-count <- from the AAString after reading with readAAStringSet
+  # aaseq <- <- from the AAString after reading with readAAStringSet
+  #
+  # UniRef fasta fields
+  #
+  # Where:
+  #
+  # UniqueIdentifier is the primary accession number of the UniRef cluster.
+  # ClusterName is the name of the UniRef cluster.
+  # Members is the number of UniRef cluster members.
+  # TaxonName is the scientific name of the lowest common taxon shared by all UniRef cluster members.
+  # TaxonIdentifier is the NCBI taxonomy identifier of the lowest common taxon shared by all UniRef cluster members.
+  # RepresentativeMember is the entry name of the representative member of the UniRef cluster.
+  # e.g.
+  # >UniqueIdentifier ClusterName n=Members Tax=TaxonName TaxID=TaxonIdentifier RepID=RepresentativeMember
+  # >UniRef50_A0A5A9P0L4 Peptidylprolyl isomerase n=1 Tax=Triplophysa tibetana TaxID=1572043 RepID=A0A5A9P0L4_9TELE
+
 
   # Function to read FASTA AA file
   fasta_list <- Biostrings::readAAStringSet( input_file )
@@ -304,8 +307,8 @@ parse_fasta <- function(input_file,
 
 
   # test code for the function.  Convert to assetthat test later
-  matrix <- parse_fasta( "data-raw/uniprot/castor.bean.protein.fasta", return_list = TRUE )
-  matrix
+#  matrix <- parse_fasta( "data-raw/uniprot/castor.bean.protein.fasta", return_list = TRUE )
+#  matrix
 
   # This file has 14625 protein entries
 #castor_matrix <- parse_fasta( "/nbacc/uniprot/castor.bean.taxid.3988.uniref.fasta", return_list = TRUE)
