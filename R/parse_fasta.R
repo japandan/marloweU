@@ -27,6 +27,7 @@ library( Biostrings )
 library( S4Vectors )
 
 # CRITICAL FIELDS TO EXTRACT FROM FASTA and their uniref field name
+#
 #protein_id. <-- UniqueIdentifier
 #name <-- ClusterName
 #organism <-- Tax=TaxonName
@@ -34,7 +35,6 @@ library( S4Vectors )
 #aa-sequence
 
 # UniRef fasta fields
-# >UniqueIdentifier ClusterName n=Members Tax=TaxonName TaxID=TaxonIdentifier RepID=RepresentativeMember
 #
 # Where:
 #
@@ -45,12 +45,9 @@ library( S4Vectors )
 # TaxonIdentifier is the NCBI taxonomy identifier of the lowest common taxon shared by all UniRef cluster members.
 # RepresentativeMember is the entry name of the representative member of the UniRef cluster.
 # e.g.
-#"UniRef50_A0A5A9P0L4 Peptidylprolyl isomerase n=1 Tax=Triplophysa tibetana TaxID=1572043 RepID=A0A5A9P0L4_9TELE"
-#"UniRef50_A0A410P257 Glycogen synthase n=2 Tax=Candidatus Velamenicoccus archaeovorus TaxID=1930593 RepID=A0A410P257_9BACT"
-#"UniRef50_A0A8J3NBY6 Uncharacterized protein n=2 Tax=Actinocatenispora rupis TaxID=519421 RepID=A0A8J3NBY6_9ACTN"
-#"UniRef50_Q8WZ42 Titin n=2871 Tax=Vertebrata TaxID=7742 RepID=TITIN_HUMAN"
-#"UniRef50_A0A401TRQ8 Uncharacterized protein (Fragment) n=2 Tax=Chiloscyllium TaxID=34767 RepID=A0A401TRQ8_CHIPU"
-#"UniRef50_A0A6J2WDG0 titin n=196 Tax=cellular organisms TaxID=131567 RepID=A0A6J2WDG0_CHACN"
+# >UniqueIdentifier ClusterName n=Members Tax=TaxonName TaxID=TaxonIdentifier RepID=RepresentativeMember
+# >UniRef50_A0A5A9P0L4 Peptidylprolyl isomerase n=1 Tax=Triplophysa tibetana TaxID=1572043 RepID=A0A5A9P0L4_9TELE
+
 
 parse_fasta <- function(input_file,
                       output_dir=".",
@@ -63,7 +60,7 @@ parse_fasta <- function(input_file,
   assertthat::assert_that( dir.exists(output_dir),  msg = "output_dir not found.")
   assertthat::assert_that( ( is.numeric(hydrogen_mass) ), msg = "hydrogen_mass needs to be a numeric number")
 
-  # Function to read FASTA aa file
+  # Function to read FASTA AA file
   fasta_list <- Biostrings::readAAStringSet( input_file )
   print(paste0("File ", basename(input_file), " has ", length( fasta_list), " entries."))
 
@@ -304,26 +301,19 @@ parse_fasta <- function(input_file,
 }
 
 
-test_parse_fasta <- function() {
+
 
   # test code for the function.  Convert to assetthat test later
   matrix <- parse_fasta( "data-raw/uniprot/castor.bean.protein.fasta", return_list = TRUE )
   matrix
 
   # This file has 14625 protein entries
-  castor_matrix <- parse_fasta( "/nbacc/uniprot/castor.bean.taxid.3988.uniref.fasta", return_list = TRUE)
-  dim(castor_matrix)
+#castor_matrix <- parse_fasta( "/nbacc/uniprot/castor.bean.taxid.3988.uniref.fasta", return_list = TRUE)
+#dim(castor_matrix)
   # show the first 5 entries, without the aaseq.
   # we need to examine the aaseq returned to ensure multiple sequences are correct aa_count, etc
-  castor_matrix[1:5,1:4]
-}
+#castor_matrix[1:5,1:4]
 
-
-# run the test with 2 files. Expected output:
-# [1] "File castor.bean.protein.fasta has 1 entries."
-# [1] "File castor.bean.taxid.3988.uniref.fasta has 14625 entries."
-
-#test_parse_fasta()
 
 
 
