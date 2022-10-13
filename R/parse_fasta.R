@@ -87,28 +87,211 @@ parse_fasta <- function(input_file,
   #print( paste0("aaseq", aaseq ))
 
 
-  #binding the results from each regular expression into one big matrix
+  # binding the results from each regular expression into one big matrix
+  # Adding NA placeholders for missing info from FASTA in case we want to get it from another source
   all_info <-
     cbind(
       entry_id,
+      NA, #cds
       name[,2],
+      NA, #definition
+      NA, #orthology
       organism[,2],
+      NA, #pathway
+      NA, #module
+      NA, #brite
+      NA, #position
+      NA, #motif
+      NA, #dblinks
       aa_count,
       aaseq
     )
 
-  #adding column names
+# These are the items we are able to pull from the FASTA in case we want to create a smaller all_info matrix
+#  colnames(all_info) <-
+#    c(
+#      "protein_id",
+#      "name",
+#      "organism",
+#      "aa_count",
+#      "aaseq"
+#    )
+
   colnames(all_info) <-
     c(
       "protein_id",
+      "cds",
       "name",
+      "definition",
+      "orthology",
       "organism",
+      "pathway",
+      "module",
+      "brite",
+      "position",
+      "motif",
+      "dblinks",
       "aa_count",
       "aaseq"
     )
 
-  #rownames(all_info) <- 1:nrow(all_info)
-  organism_info <- all_info
+
+
+  #removing unnecessary objects because they will be very large for large ENT files
+  #The are already inserted into all_info
+  rm(
+    entry_id,
+    name,
+  #  organism,  # don't remove until we know it is correct
+    aa_count,
+    aaseq
+  )
+
+
+
+  #Making Output Dataframes#####
+
+  #peptides####
+  raw_seq <- all_info[, c("protein_id", "aaseq")]
+
+  peptides <-
+    plyr::adply(raw_seq,
+                1,
+                digest_ent_protein,
+                .id = NULL)
+
+  #removing proteins with no tryptic peptides of length > 4
+  if (sum(is.na(peptides$peptide)) > 0) {
+    no_pep_prots <- unique(peptides$protein_id[is.na(peptides$peptide)])
+
+    all_info <-
+      all_info[!(all_info[, "protein_id"] %in% no_pep_prots),]
+
+    peptides <- peptides[!is.na(peptides$peptide), ]
+
+    print(paste0(
+      length(no_pep_prots),
+      " proteins had no tryptic peptides with length > 4."
+    ))
+  }
+
+  ##  uncomment as you check each section
+  #
+  # Protein
+  #
+  # These fields are not in the FASTA
+  # definition <- NA
+  # orthology <- NA
+  # position <- NA
+  # motif <- NA
+  #
+  protein <- as.data.frame(all_info[, c("protein_id",
+                                         "name",
+                                         "definition",
+                                         "orthology",
+                                         "position",
+                                         "motif",
+                                         "aaseq")], stringsAsFactors = FALSE)
+
+  #
+  # #removing extra space in orthology to match output from previous code
+  # protein$orthology <- gsub("\\s\\s", " ", protein$orthology)
+  #
+  #
+  # #Organism####
+  #organism <-
+  #   as.data.frame(unique(all_info[, c("organism", "cds")]),
+  #                 stringsAsFactors = FALSE)
+  #
+  # #making sure there is only one organism
+  # assertthat::assert_that(
+  #   nrow(organism) == 1,
+  #   msg = paste0(
+  #     nrow(organism),
+  #     " organisms were found. Only one distinct organism is allowed."
+  #   )
+  # )
+  # #there must be at least 1 non-NA
+  # assertthat::assert_that(!is.na(organism$organism[1]),
+  #                         msg = "No organism fields detected.")
+  #
+  # #extracting info
+  # organism_split <- stringr::str_extract_all(organism[1, 1], "\\S+")
+  # organism$letter_code <- organism_split[[1]][1]
+  # organism$genus <- organism_split[[1]][2]
+  # organism$species <- organism_split[[1]][3]
+  #
+  # #removing the 3 letter code from the organism field to match output from
+  # #previous code
+  # organism$organism <-
+  #   gsub("^[a-z]{3}\\s\\s", "", organism$organism)
+  #
+  #
+  # colnames(organism)[2] <- "kegg_id"
+  # rm(organism_split)
+  #
+
+  # Pathway
+  # Since the FASTA has no Pathway entries, return an empty dataframe
+
+  pathway <- data.frame(
+                protein_id = NA,
+                short_path = NA,
+                description = NA)
+
+
+  # Enzyme
+  # Since FASTA contains no enzyme entries, return an empty dataframe
+
+  enzyme <- data.frame(
+                protein_id = NA,
+                Enzyme = NA,
+                description = NA)
+
+  # Module
+  # Since FASTA file contains no Module entries, return an empty dataframe
+
+  module <- data.frame(
+                protein_id = NA,
+                module_code = NA,
+                description = NA)
+
+
+  #
+  # db_links
+  # Since FASTA has noDBlinks, return an empty dataframe
+
+  db_links <- data.frame(
+                protein_id = NA,
+                database = NA,
+                id = NA)
+
+
+
+
+  # #Saving output####
+  # output_name <- basename(input_file)
+  # output_name <- gsub("ent", "RData", output_name)
+  # output_path <-
+  #   paste(normalizePath(output_dir), output_name, sep = "\\")
+  #
+  organism_info <- list(
+     organism = organism,
+     protein = protein,
+     pathway = pathway,
+     enzyme = enzyme,
+     module = module,
+     db_links = db_links,
+     peptides = peptides
+   )
+  #
+  # save(organism_info, file = output_path)
+  #
+  # print(paste0(basename(input_file), " contained ", nrow(protein), " proteins and ", nrow(peptides), " peptides."))
+  # print(paste0("Parsing took ", difftime(Sys.time(), start_time, units = "secs"), " seconds."))
+  # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+
+
 
   # Toggle the return of the organism_info based on parameter return_list
   if (return_list) {
@@ -134,6 +317,7 @@ test_parse_fasta <- function() {
   # we need to examine the aaseq returned to ensure multiple sequences are correct aa_count, etc
   castor_matrix[1:5,1:4]
 }
+
 
 # run the test with 2 files. Expected output:
 # [1] "File castor.bean.protein.fasta has 1 entries."
