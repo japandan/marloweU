@@ -127,6 +127,8 @@ parse_fasta <- function(fasta_input_file,
 #      "aaseq"
 #    )
 
+# add row and column names
+  rownames(all_info) <- 1:nrow(all_info)
   colnames(all_info) <-
     c(
       "protein_id",
@@ -145,11 +147,7 @@ parse_fasta <- function(fasta_input_file,
       "aaseq"
     )
 
-  rownames(all_info) <- 1:nrow(all_info)
 
-  #print( str( all_info ) )
-  #print(paste0( colnames(all_info) ))
-  #print(paste0( all_info ))
 
   #removing unnecessary objects because they will be very large for large ENT files
   #The are already inserted into all_info
@@ -162,19 +160,10 @@ parse_fasta <- function(fasta_input_file,
   )
 
 
-
-  #Making Output Dataframes#####
+  # Making Output Dataframes #####
 
   #peptides####
-  raw_seq <- all_info[ , c("protein_id", "aaseq")]
-
-  # force the vector case for a single row into a matrix for adply
-  if (is.vector( raw_seq)) {
-    print( "converting sequence to matrix...")
-    raw_seq <- matrix(data=raw_seq, nrow=1, ncol=2, byrow = FALSE )
-  }
-
-
+  raw_seq <- all_info[ , c("protein_id", "aaseq"), drop = FALSE]
 
   peptides <-
     plyr::adply(raw_seq,
@@ -207,21 +196,13 @@ parse_fasta <- function(fasta_input_file,
   # position <- NA
   # motif <- NA
   #
-  protein <- all_info[, c("protein_id",
+  protein <- as.data.frame(all_info[, c("protein_id",
                           "name",
                           "definition",
                           "orthology",
                           "position",
                           "motif",
-                          "aaseq")]
-
-  # force the vector case for a single row into a matrix for adply
-  if (is.vector( protein )) {
-    print( "converting sequence to matrix...")
-    protein <- matrix(data=protein, nrow=1, ncol=7, byrow = FALSE )
-  }
-
-  protein <- as.data.frame( protein , stringsAsFactors = FALSE)
+                          "aaseq"), drop = FALSE] ,stringsAsFactors = FALSE)
 
   #
   # #removing extra space in orthology to match output from previous code
@@ -294,20 +275,20 @@ parse_fasta <- function(fasta_input_file,
                 id = NA)
 
 
-  # #Saving output####
-  # output_name <- basename(input_file)
-  # output_name <- gsub("ent", "RData", output_name)
-  # output_path <-
-  #   paste(normalizePath(output_dir), output_name, sep = "/")
+  #Saving output####
+  output_name <- basename(fasta_input_file)
+  output_name <- gsub("fasta", "RData", output_name)
+  output_path <- paste(normalizePath(output_dir), output_name, sep = "/")
   # output_path <-
   #   paste(normalizePath(output_dir), output_name, sep = "\\"). # windows version
-  #
+
+  # building the organism data structure
   organism_info <- list(
      organism = organism,
-     protein = protein,
-     pathway = pathway,
-     enzyme = enzyme,
-     module = module,
+     protein  = protein,
+     pathway  = pathway,
+     enzyme   = enzyme,
+     module   = module,
      db_links = db_links,
      peptides = peptides
    )
@@ -332,28 +313,44 @@ parse_fasta <- function(fasta_input_file,
 
 
 
-# test code for the function.  Convert to assetthat test later
-# FAILS for a single entry
+# test code for the function. Test edge cases, 1 entry multiple taxid in a file.
+output_dir <- "data/RData"
+
+# "castor.bean.protein.fasta contained 1 proteins and 30 peptides."
 fasta_input_file <-"data-raw/uniprot/castor.bean.protein.fasta"
-castor <- parse_fasta( fasta_input_file, return_list = TRUE )
-castor
+castor1 <- parse_fasta( fasta_input_file,
+                       output_dir,
+                       return_list = TRUE )
+castor1
+
+#
+# castor.bean.taxid.3988.uniref.fasta contained 14625 proteins and 219716 peptides.
+castor_matrix <- parse_fasta( "/nbacc/uniprot/castor.bean.taxid.3988.uniref.fasta",
+                              output_dir,
+                              return_list = TRUE)
+dim(castor_matrix)
+
+# show the first 5 entries, without the aaseq.
+# we need to examine the aaseq returned to ensure multiple sequences are correct aa_count, etc
 
 # truncated entry with 4 proteins and 2 taxid and 1 entry with no taxid
-# WORKS for multiple entries
+# "uniref50_chlamydia_pneumoniae.head.fasta contained 4 proteins and 38 peptides."
 fasta_input_file <- "data-raw/uniprot/uniref50_chlamydia_pneumoniae.head.fasta"
-clap <- parse_fasta( fasta_input_file, return_list = TRUE )
-clap
+clap1 <- parse_fasta( fasta_input_file,
+                     output_dir,
+                     return_list = TRUE )
+clap1
 
-# Full entry
-#clap <- parse_fasta( "data-raw/uniprot/uniref50_chlamydia_pneumoniae.fasta", return_list = TRUE )
-#clap
 
-  # This file has 14625 protein entries
-#castor_matrix <- parse_fasta( "/nbacc/uniprot/castor.bean.taxid.3988.uniref.fasta", return_list = TRUE)
-#dim(castor_matrix)
-  # show the first 5 entries, without the aaseq.
-  # we need to examine the aaseq returned to ensure multiple sequences are correct aa_count, etc
-#castor_matrix[1:5,1:4]
+# uniref50_chlamydia_pneumoniae.fasta contained 872 proteins and 14513 peptides.
+"uniref50_chlamydia_pneumoniae.fasta contained 872 proteins and 14513 peptides."
+clap2 <- parse_fasta( "data-raw/uniprot/uniref50_chlamydia_pneumoniae.fasta",
+                     output_dir,
+                     return_list = TRUE )
+clap2
+
+
+
 
 
 

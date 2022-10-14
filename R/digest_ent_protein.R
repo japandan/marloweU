@@ -20,8 +20,8 @@
 #' @importFrom assertthat assert_that
 digest_ent_protein <- function(protein_info, hydrogen_mass = 1.00727646627, digest_enzyme = "trypsin")
 {
-  print( paste0("Digesting ", protein_info[1], " with ", digest_enzyme ))
-  print( paste0("AA seq: ", protein_info[2] ))
+  # debug statements can be used to get metrics for performance
+  # print( paste0("Digesting Protein=", protein_info[1], ", AA seq length=", width( protein_info[2] ),", protease=",digest_enzyme ))
 
   assertthat::assert_that(length(protein_info) == 2,
                           msg = "protein_info must have length 2")
