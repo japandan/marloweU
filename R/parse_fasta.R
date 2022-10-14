@@ -312,43 +312,45 @@ parse_fasta <- function(fasta_input_file,
 }
 
 
+test_all<-function() {
+      # test code for the function. Test edge cases, 1 entry multiple taxid in a file.
+      output_dir <- "data/RData"
 
-# test code for the function. Test edge cases, 1 entry multiple taxid in a file.
-output_dir <- "data/RData"
+      # "castor.bean.protein.fasta contained 1 proteins and 30 peptides."
+      fasta_input_file <-"data-raw/uniprot/castor.bean.protein.fasta"
+      castor1 <- parse_fasta( fasta_input_file,
+                             output_dir,
+                             return_list = TRUE )
+      print( str( castor1 ))
+      #
+      # castor.bean.taxid.3988.uniref.fasta contained 14625 proteins and 219716 peptides.
+      castor_matrix <- parse_fasta( "/nbacc/uniprot/castor.bean.taxid.3988.uniref.fasta",
+                                    output_dir,
+                                    return_list = TRUE)
+      print( str( castor_matrix ))
 
-# "castor.bean.protein.fasta contained 1 proteins and 30 peptides."
-fasta_input_file <-"data-raw/uniprot/castor.bean.protein.fasta"
-castor1 <- parse_fasta( fasta_input_file,
-                       output_dir,
-                       return_list = TRUE )
-castor1
+      # show the first 5 entries, without the aaseq.
+      # we need to examine the aaseq returned to ensure multiple sequences are correct aa_count, etc
 
-#
-# castor.bean.taxid.3988.uniref.fasta contained 14625 proteins and 219716 peptides.
-castor_matrix <- parse_fasta( "/nbacc/uniprot/castor.bean.taxid.3988.uniref.fasta",
-                              output_dir,
-                              return_list = TRUE)
-dim(castor_matrix)
+      # truncated entry with 4 proteins and 2 taxid and 1 entry with no taxid
+      # "uniref50_chlamydia_pneumoniae.head.fasta contained 4 proteins and 38 peptides."
+      fasta_input_file <- "data-raw/uniprot/uniref50_chlamydia_pneumoniae.head.fasta"
+      clap1 <- parse_fasta( fasta_input_file,
+                           output_dir,
+                           return_list = TRUE )
 
-# show the first 5 entries, without the aaseq.
-# we need to examine the aaseq returned to ensure multiple sequences are correct aa_count, etc
+      print( str( clap1 ))
 
-# truncated entry with 4 proteins and 2 taxid and 1 entry with no taxid
-# "uniref50_chlamydia_pneumoniae.head.fasta contained 4 proteins and 38 peptides."
-fasta_input_file <- "data-raw/uniprot/uniref50_chlamydia_pneumoniae.head.fasta"
-clap1 <- parse_fasta( fasta_input_file,
-                     output_dir,
-                     return_list = TRUE )
-clap1
+      # uniref50_chlamydia_pneumoniae.fasta contained 872 proteins and 14513 peptides.
+      "uniref50_chlamydia_pneumoniae.fasta contained 872 proteins and 14513 peptides."
+      clap2 <- parse_fasta( "data-raw/uniprot/uniref50_chlamydia_pneumoniae.fasta",
+                           output_dir,
+                           return_list = TRUE )
 
+      print( str( clap2 ))
+}
 
-# uniref50_chlamydia_pneumoniae.fasta contained 872 proteins and 14513 peptides.
-"uniref50_chlamydia_pneumoniae.fasta contained 872 proteins and 14513 peptides."
-clap2 <- parse_fasta( "data-raw/uniprot/uniref50_chlamydia_pneumoniae.fasta",
-                     output_dir,
-                     return_list = TRUE )
-clap2
-
+#test_all()
 
 
 
