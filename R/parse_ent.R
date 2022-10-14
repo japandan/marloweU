@@ -425,7 +425,7 @@ parse_ent <- function(input_file,
   output_name <- basename(input_file)
   output_name <- gsub("ent", "RData", output_name)
   output_path <-
-    paste(normalizePath(output_dir), output_name, sep = "\\")
+    paste(normalizePath(output_dir), output_name, sep = "/")
 
   organism_info <- list(
     organism = organism,
@@ -438,10 +438,11 @@ parse_ent <- function(input_file,
   )
 
   save(organism_info, file = output_path)
-
+  print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+  print(paste0("Output saved in: ", output_path))
   print(paste0(basename(input_file), " contained ", nrow(protein), " proteins and ", nrow(peptides), " peptides."))
   print(paste0("Parsing took ", difftime(Sys.time(), start_time, units = "secs"), " seconds."))
-  print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+  print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
   if (return_list) {
     return(organism_info)
@@ -451,4 +452,4 @@ parse_ent <- function(input_file,
 }
 
 # test file
-#parse_ent( "data-raw/T00032.ent",".")
+parse_ent( "data-raw/T00032.ent","data/")

@@ -18,8 +18,10 @@
 #' @export
 #' @importFrom OrgMassSpecR Digest
 #' @importFrom assertthat assert_that
-digest_ent_protein <- function(protein_info, hydrogen_mass = 1.00727646627)
+digest_ent_protein <- function(protein_info, hydrogen_mass = 1.00727646627, digest_enzyme = "trypsin")
 {
+  print( paste0("Digesting ", protein_info[1], " with ", digest_enzyme ))
+  print( paste0("AA seq: ", protein_info[2] ))
 
   assertthat::assert_that(length(protein_info) == 2,
                           msg = "protein_info must have length 2")
@@ -39,7 +41,7 @@ digest_ent_protein <- function(protein_info, hydrogen_mass = 1.00727646627)
     suppressWarnings(
       OrgMassSpecR::Digest(
         protein_info[2],
-        enzyme = "trypsin",
+        enzyme = digest_enzyme,
         missed = 0,
         IAA = FALSE,
         custom = list(

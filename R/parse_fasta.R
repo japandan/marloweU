@@ -25,14 +25,14 @@
 #' @importFrom assertthat assert_that
 #' @importFrom Biostrings readAAStringSet
 #
-parse_fasta <- function(input_file,
+parse_fasta <- function(fasta_input_file,
                       output_dir=".",
                       return_list = FALSE,
                       hydrogen_mass = 1.00727646627){
 
 
   #checking inputs
-  assertthat::assert_that( file.exists(input_file), msg = "input_file not found.")
+  assertthat::assert_that( file.exists(fasta_input_file), msg = "input_file not found.")
   assertthat::assert_that( dir.exists(output_dir),  msg = "output_dir not found.")
   assertthat::assert_that( ( is.numeric(hydrogen_mass) ), msg = "hydrogen_mass needs to be a numeric number")
 
@@ -58,13 +58,20 @@ parse_fasta <- function(input_file,
   # >UniqueIdentifier ClusterName n=Members Tax=TaxonName TaxID=TaxonIdentifier RepID=RepresentativeMember
   # >UniRef50_A0A5A9P0L4 Peptidylprolyl isomerase n=1 Tax=Triplophysa tibetana TaxID=1572043 RepID=A0A5A9P0L4_9TELE
 
+  # start the timer to calculate how long this takes
+  print(paste0("Starting file: ", basename(fasta_input_file), " at ", Sys.time()))
+  start_time <- Sys.time()
 
   # Function to read FASTA AA file
-  fasta_list <- Biostrings::readAAStringSet( input_file )
-  print(paste0("File ", basename(input_file), " has ", length( fasta_list), " entries."))
+  fasta_list <- Biostrings::readAAStringSet( fasta_input_file )
 
-  #protein_id. <- UniqueIdentifier
-  entry_id <- stringr::word( names(fasta_list), 1 )
+  no_entries <- length( fasta_list)
+  print(paste0("File ", basename(fasta_input_file), " has ", no_entries , " entries."))
+
+  #Use regular expresions to pull out the needed fields.  Need to be returned as.matrix
+  #protein_id. <- UniqueIdentifier (first field, can contain underlines)
+  #entry_id <- as.matrix( stringr::word( names(fasta_list), 1 ))
+  entry_id <- stringr::str_match( names(fasta_list), "(?:^|(?:[.!?]\\s))(\\w+)")
   #print( paste0("entry_id: ", entry_id) )
 
   #name <- ClusterName
@@ -76,29 +83,35 @@ parse_fasta <- function(input_file,
   #print( paste0("organism: ",organism[2]))
 
   #aa_count
-  aa_count <- width( fasta_list )#
+  aa_count <- as.matrix( width( fasta_list ))
   #print( paste0("aa_count:", aa_count ))
+
   #aa_sequence
-  aaseq <- toString( fasta_list )
+  # convert the sequences from AAString to conventional string
+  names( fasta_list ) <- NULL
+  aaseq <- as.matrix( sapply( fasta_list, toString  ))
   #print( paste0("aaseq", aaseq ))
+
+
 
 
   # binding the results from each regular expression into one big matrix
   # Adding NA placeholders for missing info from FASTA in case we want to get it from another source
+  blanks <- matrix( data = NA, nrow = no_entries )
   all_info <-
     cbind(
-      entry_id,
-      NA, #cds
+      entry_id[,2],
+      blanks, #cds
       name[,2],
-      NA, #definition
-      NA, #orthology
+      blanks, #definition
+      blanks, #orthology
       organism[,2],
-      NA, #pathway
-      NA, #module
-      NA, #brite
-      NA, #position
-      NA, #motif
-      NA, #dblinks
+      blanks, #pathway
+      blanks, #module
+      blanks, #brite
+      blanks, #position
+      blanks, #motif
+      blanks, #dblinks
       aa_count,
       aaseq
     )
@@ -134,9 +147,9 @@ parse_fasta <- function(input_file,
 
   rownames(all_info) <- 1:nrow(all_info)
 
-  print( str( all_info ) )
-  print(paste0( colnames(all_info) ))
-  print(paste0( all_info ))
+  #print( str( all_info ) )
+  #print(paste0( colnames(all_info) ))
+  #print(paste0( all_info ))
 
   #removing unnecessary objects because they will be very large for large ENT files
   #The are already inserted into all_info
@@ -153,15 +166,16 @@ parse_fasta <- function(input_file,
   #Making Output Dataframes#####
 
   #peptides####
-  raw_seq <- all_info[, c("protein_id", "aaseq")]
-  #print( str( raw_seq ))
-  print(paste0("raw_seq has ", length( raw_seq[1] ), " length."))
-  print(paste0("raw_seq[1] is a vector ", is.vector( raw_seq[1] )))
+  raw_seq <- all_info[ , c("protein_id", "aaseq")]
+  # debugging, needs to be a vector
+  str( raw_seq )
+  print(paste0("raw_seq has length ", length( raw_seq )))
+  print(paste0("raw_seq is a vector ", is.vector( raw_seq )))
 
   peptides <-
     plyr::adply(raw_seq,
-                1,
-                digest_ent_protein,
+                1,                   # iterate over rows
+                digest_ent_protein,  # call the digest function for each row
                 .id = NULL)
 
   #removing proteins with no tryptic peptides of length > 4
@@ -272,7 +286,9 @@ parse_fasta <- function(input_file,
   # output_name <- basename(input_file)
   # output_name <- gsub("ent", "RData", output_name)
   # output_path <-
-  #   paste(normalizePath(output_dir), output_name, sep = "\\")
+  #   paste(normalizePath(output_dir), output_name, sep = "/")
+  # output_path <-
+  #   paste(normalizePath(output_dir), output_name, sep = "\\"). # windows version
   #
   organism_info <- list(
      organism = organism,
@@ -284,12 +300,14 @@ parse_fasta <- function(input_file,
      peptides = peptides
    )
 
-  #
+  # uncomment when ready to create files
   # save(organism_info, file = output_path)
   #
-  # print(paste0(basename(input_file), " contained ", nrow(protein), " proteins and ", nrow(peptides), " peptides."))
-  # print(paste0("Parsing took ", difftime(Sys.time(), start_time, units = "secs"), " seconds."))
-  # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+  print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+  print(paste0( "Output saved in: ", output_path ))
+  print(paste0( basename(fasta_input_file), " contained ", nrow(protein), " proteins and ", nrow(peptides), " peptides." ))
+  print(paste0( "Parsing took ", difftime(Sys.time(), start_time, units = "secs"), " seconds." ))
+  print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
 
   # Toggle the return of the organism_info based on parameter return_list
@@ -308,7 +326,7 @@ parse_fasta <- function(input_file,
 #castor
 
 # truncated entry with 4 proteins and 2 taxid and 1 entry with no taxid
-# clap <- parse_fasta( "data-raw/uniprot/uniref50_chlamydia_pneumoniae.head.fasta", return_list = TRUE )
+ clap <- parse_fasta( "data-raw/uniprot/uniref50_chlamydia_pneumoniae.head.fasta", return_list = TRUE )
 
 #clap
 
