@@ -167,10 +167,14 @@ parse_fasta <- function(fasta_input_file,
 
   #peptides####
   raw_seq <- all_info[ , c("protein_id", "aaseq")]
-  # debugging, needs to be a vector
-  str( raw_seq )
-  print(paste0("raw_seq has length ", length( raw_seq )))
-  print(paste0("raw_seq is a vector ", is.vector( raw_seq )))
+
+  # force the vector case for a single row into a matrix for adply
+  if (is.vector( raw_seq)) {
+    print( "converting sequence to matrix...")
+    raw_seq <- matrix(data=raw_seq, nrow=1, ncol=2, byrow = FALSE )
+  }
+
+
 
   peptides <-
     plyr::adply(raw_seq,
@@ -203,13 +207,21 @@ parse_fasta <- function(fasta_input_file,
   # position <- NA
   # motif <- NA
   #
-  protein <- as.data.frame(all_info[, c("protein_id",
-                                        "name",
-                                        "definition",
-                                        "orthology",
-                                        "position",
-                                        "motif",
-                                        "aaseq")], stringsAsFactors = FALSE)
+  protein <- all_info[, c("protein_id",
+                          "name",
+                          "definition",
+                          "orthology",
+                          "position",
+                          "motif",
+                          "aaseq")]
+
+  # force the vector case for a single row into a matrix for adply
+  if (is.vector( protein )) {
+    print( "converting sequence to matrix...")
+    protein <- matrix(data=protein, nrow=1, ncol=7, byrow = FALSE )
+  }
+
+  protein <- as.data.frame( protein , stringsAsFactors = FALSE)
 
   #
   # #removing extra space in orthology to match output from previous code
@@ -303,12 +315,11 @@ parse_fasta <- function(fasta_input_file,
   # uncomment when ready to create files
   # save(organism_info, file = output_path)
   #
-  print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+  print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   print(paste0( "Output saved in: ", output_path ))
   print(paste0( basename(fasta_input_file), " contained ", nrow(protein), " proteins and ", nrow(peptides), " peptides." ))
   print(paste0( "Parsing took ", difftime(Sys.time(), start_time, units = "secs"), " seconds." ))
-  print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-
+  print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
   # Toggle the return of the organism_info based on parameter return_list
   if (return_list) {
@@ -322,17 +333,20 @@ parse_fasta <- function(fasta_input_file,
 
 
 # test code for the function.  Convert to assetthat test later
-#castor <- parse_fasta( "data-raw/uniprot/castor.bean.protein.fasta", return_list = TRUE )
-#castor
+# FAILS for a single entry
+fasta_input_file <-"data-raw/uniprot/castor.bean.protein.fasta"
+castor <- parse_fasta( fasta_input_file, return_list = TRUE )
+castor
 
 # truncated entry with 4 proteins and 2 taxid and 1 entry with no taxid
- clap <- parse_fasta( "data-raw/uniprot/uniref50_chlamydia_pneumoniae.head.fasta", return_list = TRUE )
-
-#clap
+# WORKS for multiple entries
+fasta_input_file <- "data-raw/uniprot/uniref50_chlamydia_pneumoniae.head.fasta"
+clap <- parse_fasta( fasta_input_file, return_list = TRUE )
+clap
 
 # Full entry
-  #clap <- parse_fasta( "data-raw/uniprot/uniref50_chlamydia_pneumoniae.fasta", return_list = TRUE )
-  #clap
+#clap <- parse_fasta( "data-raw/uniprot/uniref50_chlamydia_pneumoniae.fasta", return_list = TRUE )
+#clap
 
   # This file has 14625 protein entries
 #castor_matrix <- parse_fasta( "/nbacc/uniprot/castor.bean.taxid.3988.uniref.fasta", return_list = TRUE)
