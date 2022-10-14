@@ -23,7 +23,7 @@
 #' @importFrom OrgMassSpecR Digest
 #' @importFrom stringr str_match str_trim str_replace_all str_extract_all str_match_all
 #' @importFrom assertthat assert_that
-#' @importFrom Biostring readAAStringSet
+#' @importFrom Biostrings readAAStringSet
 #
 parse_fasta <- function(input_file,
                       output_dir=".",
@@ -36,8 +36,6 @@ parse_fasta <- function(input_file,
   assertthat::assert_that( dir.exists(output_dir),  msg = "output_dir not found.")
   assertthat::assert_that( ( is.numeric(hydrogen_mass) ), msg = "hydrogen_mass needs to be a numeric number")
 
-
-  #library( Biostrings )
   #library( S4Vectors )
 
   # CRITICAL FIELDS TO EXTRACT FROM FASTA and their uniref field name
@@ -49,8 +47,6 @@ parse_fasta <- function(input_file,
   # aaseq <- <- from the AAString after reading with readAAStringSet
   #
   # UniRef fasta fields
-  #
-  # Where:
   #
   # UniqueIdentifier is the primary accession number of the UniRef cluster.
   # ClusterName is the name of the UniRef cluster.
@@ -107,6 +103,7 @@ parse_fasta <- function(input_file,
       aaseq
     )
 
+
 # These are the items we are able to pull from the FASTA in case we want to create a smaller all_info matrix
 #  colnames(all_info) <-
 #    c(
@@ -135,7 +132,11 @@ parse_fasta <- function(input_file,
       "aaseq"
     )
 
+  rownames(all_info) <- 1:nrow(all_info)
 
+  print( str( all_info ) )
+  print(paste0( colnames(all_info) ))
+  print(paste0( all_info ))
 
   #removing unnecessary objects because they will be very large for large ENT files
   #The are already inserted into all_info
@@ -153,6 +154,9 @@ parse_fasta <- function(input_file,
 
   #peptides####
   raw_seq <- all_info[, c("protein_id", "aaseq")]
+  #print( str( raw_seq ))
+  print(paste0("raw_seq has ", length( raw_seq[1] ), " length."))
+  print(paste0("raw_seq[1] is a vector ", is.vector( raw_seq[1] )))
 
   peptides <-
     plyr::adply(raw_seq,
@@ -186,12 +190,12 @@ parse_fasta <- function(input_file,
   # motif <- NA
   #
   protein <- as.data.frame(all_info[, c("protein_id",
-                                         "name",
-                                         "definition",
-                                         "orthology",
-                                         "position",
-                                         "motif",
-                                         "aaseq")], stringsAsFactors = FALSE)
+                                        "name",
+                                        "definition",
+                                        "orthology",
+                                        "position",
+                                        "motif",
+                                        "aaseq")], stringsAsFactors = FALSE)
 
   #
   # #removing extra space in orthology to match output from previous code
@@ -242,7 +246,6 @@ parse_fasta <- function(input_file,
 
   # Enzyme
   # Since FASTA contains no enzyme entries, return an empty dataframe
-
   enzyme <- data.frame(
                 protein_id = NA,
                 Enzyme = NA,
@@ -250,7 +253,6 @@ parse_fasta <- function(input_file,
 
   # Module
   # Since FASTA file contains no Module entries, return an empty dataframe
-
   module <- data.frame(
                 protein_id = NA,
                 module_code = NA,
@@ -260,13 +262,10 @@ parse_fasta <- function(input_file,
   #
   # db_links
   # Since FASTA has noDBlinks, return an empty dataframe
-
   db_links <- data.frame(
                 protein_id = NA,
                 database = NA,
                 id = NA)
-
-
 
 
   # #Saving output####
@@ -284,13 +283,13 @@ parse_fasta <- function(input_file,
      db_links = db_links,
      peptides = peptides
    )
+
   #
   # save(organism_info, file = output_path)
   #
   # print(paste0(basename(input_file), " contained ", nrow(protein), " proteins and ", nrow(peptides), " peptides."))
   # print(paste0("Parsing took ", difftime(Sys.time(), start_time, units = "secs"), " seconds."))
   # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-
 
 
   # Toggle the return of the organism_info based on parameter return_list
@@ -300,15 +299,22 @@ parse_fasta <- function(input_file,
     invisible(input_file)
   }
 
-
 }
 
 
 
+# test code for the function.  Convert to assetthat test later
+#castor <- parse_fasta( "data-raw/uniprot/castor.bean.protein.fasta", return_list = TRUE )
+#castor
 
-  # test code for the function.  Convert to assetthat test later
-#  matrix <- parse_fasta( "data-raw/uniprot/castor.bean.protein.fasta", return_list = TRUE )
-#  matrix
+# truncated entry with 4 proteins and 2 taxid and 1 entry with no taxid
+# clap <- parse_fasta( "data-raw/uniprot/uniref50_chlamydia_pneumoniae.head.fasta", return_list = TRUE )
+
+#clap
+
+# Full entry
+  #clap <- parse_fasta( "data-raw/uniprot/uniref50_chlamydia_pneumoniae.fasta", return_list = TRUE )
+  #clap
 
   # This file has 14625 protein entries
 #castor_matrix <- parse_fasta( "/nbacc/uniprot/castor.bean.taxid.3988.uniref.fasta", return_list = TRUE)

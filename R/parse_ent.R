@@ -191,12 +191,21 @@ parse_ent <- function(input_file,
     na_pos
   )
 
-
+  print( str( all_info ) )
+  print(paste0(colnames(all_info) ))
+  print(paste0( all_info[1]))
 
   #Making Output Dataframes#####
 
   #peptides####
   raw_seq <- all_info[, c("protein_id", "aaseq")]
+  #print( raw_seq )
+  print(paste0("raw_seq has ", length( raw_seq ), " length."))
+  print(paste0("raw_seq is a vector ", is.vector( raw_seq )))
+
+  #print( raw_seq[1] )
+  print(paste0("raw_seq[1] has ", length( raw_seq[1] ), " length."))
+  print(paste0("raw_seq[1] is a vector ", is.vector( raw_seq[1] )))
 
   peptides <-
     plyr::adply(raw_seq,
@@ -441,5 +450,5 @@ parse_ent <- function(input_file,
   }
 }
 
-
-
+# test file
+#parse_ent( "data-raw/T00032.ent",".")
