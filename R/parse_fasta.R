@@ -44,7 +44,8 @@ parse_fasta <- function(fasta_input_file,
   # name <-- ClusterName
   # organism <-- Tax=TaxonName
   # aa-count <- from the AAString after reading with readAAStringSet
-  # aaseq <- <- from the AAString after reading with readAAStringSet
+  # aaseq    <- from the AAString after reading with readAAStringSet
+  # kegg-id  <- TaxID
   #
   # UniRef fasta fields
   #
@@ -79,8 +80,9 @@ parse_fasta <- function(fasta_input_file,
   #print( paste0("name: ",name[2]) )
 
   #organism <-- Tax=TaxonName
-  organism <- stringr::str_match( names(fasta_list), "Tax=(.+)\\sTaxID=")
-  #print( paste0("organism: ",organism[2]))
+  # match the genus + species after Tax= and then the word after TaxID
+  organism <- stringr::str_match( names(fasta_list), "Tax=(.+)\\sTaxID=(.+)\\s")
+  print( paste0("organism: ",organism))
 
   #aa_count
   aa_count <- as.matrix( width( fasta_list ))
@@ -101,7 +103,7 @@ parse_fasta <- function(fasta_input_file,
   all_info <-
     cbind(
       entry_id[,2],
-      blanks, #cds
+      organism[,3], #TaxID replaces(kegg-id)
       name[,2],
       blanks, #definition
       blanks, #orthology
@@ -132,7 +134,7 @@ parse_fasta <- function(fasta_input_file,
   colnames(all_info) <-
     c(
       "protein_id",
-      "cds",
+      "taxid",
       "name",
       "definition",
       "orthology",
@@ -154,7 +156,7 @@ parse_fasta <- function(fasta_input_file,
   rm(
     entry_id,
     name,
-  #  organism,  # don't remove until we know it is correct
+    organism,
     aa_count,
     aaseq
   )
@@ -196,7 +198,8 @@ parse_fasta <- function(fasta_input_file,
   # position <- NA
   # motif <- NA
   #
-  protein <- as.data.frame(all_info[, c("protein_id",
+  protein <- as.data.frame(all_info[,
+                        c("protein_id",
                           "name",
                           "definition",
                           "orthology",
@@ -210,36 +213,30 @@ parse_fasta <- function(fasta_input_file,
   #
   #
   # #Organism####
-  #organism <-
-  #   as.data.frame(unique(all_info[, c("organism", "cds")]),
-  #                 stringsAsFactors = FALSE)
+  organism <-
+     as.data.frame(unique(all_info[, c("organism","taxid"), drop = FALSE]),
+                   stringsAsFactors = FALSE)
   #
   # #making sure there is only one organism
-  # assertthat::assert_that(
-  #   nrow(organism) == 1,
-  #   msg = paste0(
-  #     nrow(organism),
-  #     " organisms were found. Only one distinct organism is allowed."
-  #   )
-  # )
+    assertthat::assert_that(
+        nrow(organism) == 1,
+        msg = paste0(
+        nrow(organism)," organisms were found. Only one distinct organism is allowed."
+      )
+    )
+
   # #there must be at least 1 non-NA
-  # assertthat::assert_that(!is.na(organism$organism[1]),
-  #                         msg = "No organism fields detected.")
+    assertthat::assert_that(!is.na(organism$organism[1]),
+                           msg = "No organism fields detected.")
   #
   # #extracting info
-  # organism_split <- stringr::str_extract_all(organism[1, 1], "\\S+")
-  # organism$letter_code <- organism_split[[1]][1]
-  # organism$genus <- organism_split[[1]][2]
-  # organism$species <- organism_split[[1]][3]
-  #
-  # #removing the 3 letter code from the organism field to match output from
-  # #previous code
-  # organism$organism <-
-  #   gsub("^[a-z]{3}\\s\\s", "", organism$organism)
-  #
-  #
-  # colnames(organism)[2] <- "kegg_id"
-  # rm(organism_split)
+   organism_split <- stringr::str_extract_all(organism[1, 1], "\\S+")
+   organism$letter_code <- NA
+   organism$genus <- organism_split[[1]][1]
+   organism$species <- organism_split[[1]][2]
+   colnames(organism)[2] <- "kegg_id"
+   rm(organism_split)
+   print( organism )
   #
 
   # Pathway
@@ -279,6 +276,7 @@ parse_fasta <- function(fasta_input_file,
   output_name <- basename(fasta_input_file)
   output_name <- gsub("fasta", "RData", output_name)
   output_path <- paste(normalizePath(output_dir), output_name, sep = "/")
+
   # output_path <-
   #   paste(normalizePath(output_dir), output_name, sep = "\\"). # windows version
 
@@ -294,7 +292,7 @@ parse_fasta <- function(fasta_input_file,
    )
 
   # uncomment when ready to create files
-  # save(organism_info, file = output_path)
+  save(organism_info, file = output_path)
   #
   print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
   print(paste0( "Output saved in: ", output_path ))
@@ -312,43 +310,44 @@ parse_fasta <- function(fasta_input_file,
 }
 
 
-test_all<-function() {
+#test_all<-function() {
       # test code for the function. Test edge cases, 1 entry multiple taxid in a file.
       output_dir <- "data/RData"
 
       # "castor.bean.protein.fasta contained 1 proteins and 30 peptides."
-      fasta_input_file <-"data-raw/uniprot/castor.bean.protein.fasta"
+      fasta_input_file <-"data-raw/uniprot/uniref50_castor_bean.3988.head.fasta"
       castor1 <- parse_fasta( fasta_input_file,
                              output_dir,
                              return_list = TRUE )
-      print( str( castor1 ))
+
+      #print( str( castor1 ))
+
+      # "uniref50_castor_bean.3988.head.fasta contained 1 proteins and 5 peptides."
+      castor2 <- parse_fasta( "/nbacc/uniprot/uniref50_castor_bean.3988.fasta",
+                                     output_dir,
+                                     return_list = TRUE)
+      print( str( castor2 ))
       #
-      # castor.bean.taxid.3988.uniref.fasta contained 14625 proteins and 219716 peptides.
-      castor_matrix <- parse_fasta( "/nbacc/uniprot/castor.bean.taxid.3988.uniref.fasta",
-                                    output_dir,
-                                    return_list = TRUE)
-      print( str( castor_matrix ))
-
-      # show the first 5 entries, without the aaseq.
-      # we need to examine the aaseq returned to ensure multiple sequences are correct aa_count, etc
-
-      # truncated entry with 4 proteins and 2 taxid and 1 entry with no taxid
-      # "uniref50_chlamydia_pneumoniae.head.fasta contained 4 proteins and 38 peptides."
-      fasta_input_file <- "data-raw/uniprot/uniref50_chlamydia_pneumoniae.head.fasta"
-      clap1 <- parse_fasta( fasta_input_file,
-                           output_dir,
-                           return_list = TRUE )
-
-      print( str( clap1 ))
-
-      # uniref50_chlamydia_pneumoniae.fasta contained 872 proteins and 14513 peptides.
-      "uniref50_chlamydia_pneumoniae.fasta contained 872 proteins and 14513 peptides."
-      clap2 <- parse_fasta( "data-raw/uniprot/uniref50_chlamydia_pneumoniae.fasta",
-                           output_dir,
-                           return_list = TRUE )
-
-      print( str( clap2 ))
-}
+      # # show the first 5 entries, without the aaseq.
+      # # we need to examine the aaseq returned to ensure multiple sequences are correct aa_count, etc
+      #
+      # # truncated entry with 4 proteins and 2 taxid and 1 entry with no taxid
+      # # "uniref50_chlamydia_pneumoniae.head.fasta contained 4 proteins and 38 peptides."
+      # fasta_input_file <- "data-raw/uniprot/uniref50_chlamydia_pneumoniae.head.fasta"
+      # clap1 <- parse_fasta( fasta_input_file,
+      #                      output_dir,
+      #                      return_list = TRUE )
+      #
+      # print( str( clap1 ))
+      #
+      # # uniref50_chlamydia_pneumoniae.fasta contained 872 proteins and 14513 peptides.
+      # "uniref50_chlamydia_pneumoniae.fasta contained 872 proteins and 14513 peptides."
+      # clap2 <- parse_fasta( "data-raw/uniprot/uniref50_chlamydia_pneumoniae.fasta",
+      #                      output_dir,
+      #                      return_list = TRUE )
+      #
+      # print( str( clap2 ))
+#}
 
 #test_all()
 
