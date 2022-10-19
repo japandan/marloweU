@@ -1,5 +1,5 @@
-#' parse_fasta.R
-#'
+#' parse_uniref.R
+
 #' Parse a UniProt uniref FASTA file
 #'
 #' @param input_file path to the input file
@@ -13,7 +13,7 @@
 #'   to a file? Defaults to FALSE.
 #'
 #' @return Default is to return an RData object to the specified location.
-#'
+#'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAWElEQVR42mNgGPTAxsZmJsVqQApgmGw1yApwKcQiT7phRBuCzzCSDSHGMKINIeDNmWQlA2IigKJwIssQkHdINgxfmBBtGDEBS3KCxBc7pMQgMYE5c/AXPwAwSX4lV3pTWwAAAABJRU5ErkJggg==
 #' @export
 #'
 #' @author Daniel T. Vogel
@@ -25,7 +25,7 @@
 #' @importFrom assertthat assert_that
 #' @importFrom Biostrings readAAStringSet
 #
-parse_fasta <- function(fasta_input_file,
+parse_uniref <- function(fasta_input_file,
                       output_dir=".",
                       return_list = FALSE,
                       hydrogen_mass = 1.00727646627){
@@ -36,6 +36,7 @@ parse_fasta <- function(fasta_input_file,
   assertthat::assert_that( dir.exists(output_dir),  msg = "output_dir not found.")
   assertthat::assert_that( ( is.numeric(hydrogen_mass) ), msg = "hydrogen_mass needs to be a numeric number")
 
+  #library( S4Vectors )
 
   # CRITICAL FIELDS TO EXTRACT FROM FASTA and their uniref field name
   #
@@ -45,6 +46,18 @@ parse_fasta <- function(fasta_input_file,
   # aa-count <- from the AAString after reading with readAAStringSet
   # aaseq    <- from the AAString after reading with readAAStringSet
   # kegg-id  <- TaxID
+  #
+  # UniRef fasta fields
+  #
+  # UniqueIdentifier is the primary accession number of the UniRef cluster.
+  # ClusterName is the name of the UniRef cluster.
+  # Members is the number of UniRef cluster members.
+  # TaxonName is the scientific name of the lowest common taxon shared by all UniRef cluster members.
+  # TaxonIdentifier is the NCBI taxonomy identifier of the lowest common taxon shared by all UniRef cluster members.
+  # RepresentativeMember is the entry name of the representative member of the UniRef cluster.
+  # e.g.
+  # >UniqueIdentifier ClusterName n=Members Tax=TaxonName TaxID=TaxonIdentifier RepID=RepresentativeMember
+  # >UniRef50_A0A5A9P0L4 Peptidylprolyl isomerase n=1 Tax=Triplophysa tibetana TaxID=1572043 RepID=A0A5A9P0L4_9TELE
 
   # start the timer to calculate how long this takes
   print(paste0("Starting file: ", basename(fasta_input_file), " at ", Sys.time()))
@@ -53,24 +66,23 @@ parse_fasta <- function(fasta_input_file,
   # Function to read FASTA AA file
   fasta_list <- Biostrings::readAAStringSet( fasta_input_file )
 
-  # Report how many different proteins are in the file.
-  no_entries <- length( fasta_list )
+  no_entries <- length( fasta_list)
   print(paste0("File ", basename(fasta_input_file), " has ", no_entries , " entries."))
 
-  # Check if format is uniref or uniprotkb.  This is redundant because the parse_fasta_header does this too.
-  fileformat <- "uniprotkb"
-  if ( tolower( substr( names(fasta_list)[1], 1, 6 ) ) == "uniref" ) {
-      fileformat <- "uniref"
-  }
-  print(paste0("Fasta Format: ", fileformat ) )
+  #Use regular expresions to pull out the needed fields.  Need to be returned as.matrix
+  #protein_id. <- UniqueIdentifier (first field, can contain underlines)
+  #entry_id <- as.matrix( stringr::word( names(fasta_list), 1 ))
+  entry_id <- stringr::str_match( names(fasta_list), "(?:^|(?:[.!?]\\s))(\\w+)")
+  #print( paste0("entry_id: ", entry_id) )
 
-  ## parse_fasta_header( uniref or uniprotkb ) to get the important fields
-  ## matrix id, protein_name, organism_name, taxonID
-  fasta_fields <- parse_fasta_header( AA_list=fasta_list )
-  protein_id   <- fasta_fields[,1, drop=FALSE]
-  protein_name <- fasta_fields[,2, drop=FALSE]
-  organism     <- fasta_fields[,3, drop=FALSE]
-  taxid        <- fasta_fields[,4, drop=FALSE]
+  #name <- ClusterName
+  name <-  stringr::str_match( names(fasta_list), "\\s(.+)\\sn=")
+  #print( paste0("name: ",name[2]) )
+
+  #organism <-- Tax=TaxonName
+  # match the genus + species after Tax= and then the word after TaxID
+  organism <- stringr::str_match( names(fasta_list), "Tax=(.+)\\sTaxID=(.+)\\s")
+  print( paste0("organism: ",organism))
 
   #aa_count
   aa_count <- as.matrix( width( fasta_list ))
@@ -83,17 +95,19 @@ parse_fasta <- function(fasta_input_file,
   #print( paste0("aaseq", aaseq ))
 
 
+
+
   # binding the results from each regular expression into one big matrix
   # Adding NA placeholders for missing info from FASTA in case we want to get it from another source
   blanks <- matrix( data = NA, nrow = no_entries )
   all_info <-
     cbind(
-      protein_id,
-      taxid, #TaxID replaces(kegg-id)
-      protein_name,
+      entry_id[,2],
+      organism[,3], #TaxID replaces(kegg-id)
+      name[,2],
       blanks, #definition
       blanks, #orthology
-      organism,  #Taxon = Genus + species
+      organism[,2],
       blanks, #pathway
       blanks, #module
       blanks, #brite
@@ -104,6 +118,16 @@ parse_fasta <- function(fasta_input_file,
       aaseq
     )
 
+
+# These are the items we are able to pull from the FASTA in case we want to create a smaller all_info matrix
+#  colnames(all_info) <-
+#    c(
+#      "protein_id",
+#      "name",
+#      "organism",
+#      "aa_count",
+#      "aaseq"
+#    )
 
 # add row and column names
   rownames(all_info) <- 1:nrow(all_info)
@@ -127,12 +151,11 @@ parse_fasta <- function(fasta_input_file,
 
 
 
-  # Removing unnecessary objects because they will be very large for large ENT files
-  # They are already inserted into all_info
+  #removing unnecessary objects because they will be very large for large ENT files
+  #The are already inserted into all_info
   rm(
-    protein_id,
-    protein_name,
-    taxid,
+    entry_id,
+    name,
     organism,
     aa_count,
     aaseq
@@ -292,44 +315,27 @@ parse_fasta <- function(fasta_input_file,
       # test code for the function. Test edge cases, 1 entry multiple taxid in a file.
       output_dir <- "data/RData"
 
-      # uniref40_castor_bean.3988.head.fasta contains 1 proteins and 30 peptides. Format is uniref.
-      fasta_input_file <-"data-raw/uniref/uniref50_castor_bean.3988.head.fasta"
-      castor1 <- parse_fasta( fasta_input_file,
+      # "castor.bean.protein.fasta contained 1 proteins and 30 peptides."
+      fasta_input_file <-"data-raw/uniprot/uniref50_castor_bean.3988.head.fasta"
+      castor1 <- parse_uniref( fasta_input_file,
                              output_dir,
                              return_list = TRUE )
 
+      #print( str( castor1 ))
 
-      # uniref50_castor_bean.3988.fasta containes 14625 proteins and ????? peptides. Format is uniref.
-      fasta_input_file <- "data-raw/uniref/uniref50_castor_bean.3988.fasta"
-      castor2 <- parse_fasta( fasta_input_file,
-                              output_dir,
-                             return_list = TRUE)
-
-
-      print("< Test with proteome uniprotkb fasta >")
-      fasta_input_file <- "data-raw/uniprot/Ricinus_communis.TaxonID_3988.head.fasta"
-      castor3 <- parse_fasta( fasta_input_file,
-                              output_dir,
-                              return_list = TRUE)
-
-
-      #File Ricinus_communis.TaxonID_3988.fasta.gz has 31219 entries.
-      #Fasta Format: uniprotkb
-      print("< Test with proteome uniprotkb gzipped fasta.gz and many proteins >")
-      fasta_input_file <- "data-raw/uniprot/Ricinus_communis.TaxonID_3988.fasta.gz"
-      castor4 <- parse_fasta( fasta_input_file,
-                              output_dir,
-                              return_list = TRUE)
-
-
+      # "uniref50_castor_bean.3988.head.fasta contained 1 proteins and 5 peptides."
+      castor2 <- parse_uniref( "/nbacc/uniprot/uniref50_castor_bean.3988.fasta",
+                                     output_dir,
+                                     return_list = TRUE)
+      print( str( castor2 ))
+      #
       # # show the first 5 entries, without the aaseq.
       # # we need to examine the aaseq returned to ensure multiple sequences are correct aa_count, etc
       #
       # # truncated entry with 4 proteins and 2 taxid and 1 entry with no taxid
-
       # # "uniref50_chlamydia_pneumoniae.head.fasta contained 4 proteins and 38 peptides."
-      # fasta_input_file <- "data-raw/uniref/uniref50_chlamydia_pneumoniae.head.fasta"
-      # clap1 <- parse_fasta( fasta_input_file,
+      # fasta_input_file <- "data-raw/uniprot/uniref50_chlamydia_pneumoniae.head.fasta"
+      # clap1 <- parse_uniref( fasta_input_file,
       #                      output_dir,
       #                      return_list = TRUE )
       #
@@ -337,7 +343,7 @@ parse_fasta <- function(fasta_input_file,
       #
       # # uniref50_chlamydia_pneumoniae.fasta contained 872 proteins and 14513 peptides.
       # "uniref50_chlamydia_pneumoniae.fasta contained 872 proteins and 14513 peptides."
-      # clap2 <- parse_fasta( "data-raw/uniref/uniref50_chlamydia_pneumoniae.fasta",
+      # clap2 <- parse_uniref( "data-raw/uniprot/uniref50_chlamydia_pneumoniae.fasta",
       #                      output_dir,
       #                      return_list = TRUE )
       #

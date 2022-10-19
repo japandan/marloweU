@@ -1,0 +1,10 @@
+Filename,Taxon,TaxonID,Proteins,TaxonCount
+uniprot/uniproteome_chlamydia_pneumoniae.TaxonID_83558.fasta.gz,Taxon:Chlamydia pneumoniae,TaxonID:83558,1052,1052
+uniprot/uniprot-Salvelinus_namaycush.TaxonID_8040.fasta.gz,Taxon:Salvelinus namaycush,TaxonID:8040,35974,35974
+uniprot/Citrus_sinensis.TaxonID_2711.fasta.gz,Taxon:Citrus sinensis,TaxonID:2711,28132,28132
+uniprot/Crassostrea_gigas.TaxonID_29159.fasta.gz,Taxon:Crassostrea gigas,TaxonID:29159,25998,25998
+uniprot/uniprot-Pseudomonas_fragi.TaxonID_296.fasta.gz,Taxon:Pseudomonas fragi,TaxonID:296,4324,4324
+uniprot/Ricinus_communis.TaxonID_3988.fasta.gz,Taxon:Ricinus communis,TaxonID:3988,31219,31219
+uniprot/Crassostrea_virginica.TaxonID_6565.fasta.gz,Taxon:Crassostrea virginica,TaxonID:6565,33720,33720
+uniprot/Bos_taurus.TaxonID_9913.fasta.gz,Taxon:Bos taurus,TaxonID:9913,23844,23844
+uniprot/Citrus_clementina.TaxonID_85681.fasta.gz,Taxon:Citrus clementina,TaxonID:85681,24934,24934
