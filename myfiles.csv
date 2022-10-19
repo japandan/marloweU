@@ -1,0 +1,10 @@
+"","data-raw/uniprot/Bos_taurus.TaxonID_9913.fasta.gz","data-raw/uniprot/Citrus_clementina.TaxonID_85681.fasta.gz","data-raw/uniprot/Citrus_sinensis.TaxonID_2711.fasta.gz","data-raw/uniprot/Crassostrea_gigas.TaxonID_29159.fasta.gz","data-raw/uniprot/Crassostrea_virginica.TaxonID_6565.fasta.gz","data-raw/uniprot/Ricinus_communis.TaxonID_3988.fasta.gz","data-raw/uniprot/Ricinus_communis.TaxonID_3988.head.fasta","data-raw/uniprot/uniprot-Pseudomonas_fragi.TaxonID_296.fasta.gz","data-raw/uniprot/uniprot-Salvelinus_namaycush.TaxonID_8040.fasta.gz","data-raw/uniprot/uniproteome_chlamydia_pneumoniae.TaxonID_83558.fasta.gz"
+"",Bos_taurus.TaxonID_9913.fasta.gz,Citrus_clementina.TaxonID_85681.fasta.gz,Citrus_sinensis.TaxonID_2711.fasta.gz,Crassostrea_gigas.TaxonID_29159.fasta.gz,Crassostrea_virginica.TaxonID_6565.fasta.gz,Ricinus_communis.TaxonID_3988.fasta.gz,Ricinus_communis.TaxonID_3988.head.fasta,uniprot-Pseudomonas_fragi.TaxonID_296.fasta.gz,uniprot-Salvelinus_namaycush.TaxonID_8040.fasta.gz,uniproteome_chlamydia_pneumoniae.TaxonID_83558.fasta.gz
+"organism",Bos taurus,Citrus clementina,Citrus sinensis,Crassostrea gigas,Crassostrea virginica,Ricinus communis,Ricinus communis,Pseudomonas fragi,Salvelinus namaycush,Chlamydia pneumoniae
+"kegg_id",9913,85681,2711,29159,6565,3988,3988,296,8040,83558
+"letter_code",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+"genus",Bos,Citrus,Citrus,Crassostrea,Crassostrea,Ricinus,Ricinus,Pseudomonas,Salvelinus,Chlamydia
+"species",taurus,clementina,sinensis,gigas,virginica,communis,communis,fragi,namaycush,pneumoniae
+"",23844,24934,28132,25998,33720,31219,2,4324,35974,1052
+"",782592,662892,633561,765394,1203116,680351,33,87078,1344413,23182
+"",6.78029571374257,6.00914230744044,5.90763462781906,6.77793383995692,10.3968698859215,6.281236632665,0.00115944941838582,0.837738609313965,11.5776650309563,0.235903179645538
