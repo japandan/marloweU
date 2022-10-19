@@ -57,15 +57,8 @@ parse_fasta <- function(fasta_input_file,
   no_entries <- length( fasta_list )
   print(paste0("File ", basename(fasta_input_file), " has ", no_entries , " entries."))
 
-  # Check if format is uniref or uniprotkb.  This is redundant because the parse_fasta_header does this too.
-  fileformat <- "uniprotkb"
-  if ( tolower( substr( names(fasta_list)[1], 1, 6 ) ) == "uniref" ) {
-      fileformat <- "uniref"
-  }
-  print(paste0("Fasta Format: ", fileformat ) )
-
   ## parse_fasta_header( uniref or uniprotkb ) to get the important fields
-  ## matrix id, protein_name, organism_name, taxonID
+  ## matrix columns: id, protein_name, organism_name, taxonID
   fasta_fields <- parse_fasta_header( AA_list=fasta_list )
   protein_id   <- fasta_fields[,1, drop=FALSE]
   protein_name <- fasta_fields[,2, drop=FALSE]
@@ -74,14 +67,11 @@ parse_fasta <- function(fasta_input_file,
 
   #aa_count
   aa_count <- as.matrix( width( fasta_list ))
-  #print( paste0("aa_count:", aa_count ))
 
   #aa_sequence
   # convert the sequences from AAString to conventional string
   names( fasta_list ) <- NULL
   aaseq <- as.matrix( sapply( fasta_list, toString  ))
-  #print( paste0("aaseq", aaseq ))
-
 
   # binding the results from each regular expression into one big matrix
   # Adding NA placeholders for missing info from FASTA in case we want to get it from another source
@@ -188,7 +178,6 @@ parse_fasta <- function(fasta_input_file,
   # #removing extra space in orthology to match output from previous code
   # protein$orthology <- gsub("\\s\\s", " ", protein$orthology)
   #
-  #
   # we need to drop all the organisms that are not matching the filename or taxid
   # #Organism####
   organism <-
@@ -214,7 +203,7 @@ parse_fasta <- function(fasta_input_file,
    organism$species <- organism_split[[1]][2]
    colnames(organism)[2] <- "kegg_id"
    rm(organism_split)
-   print( organism )
+   str( organism )
   #
 
   # Pathway
@@ -252,6 +241,7 @@ parse_fasta <- function(fasta_input_file,
 
   #Saving output####
   output_name <- basename(fasta_input_file)
+  output_name <- gsub("fasta.gz", "RData", output_name)
   output_name <- gsub("fasta", "RData", output_name)
   output_path <- paste(normalizePath(output_dir), output_name, sep = "/")
 
@@ -283,6 +273,7 @@ parse_fasta <- function(fasta_input_file,
     return(organism_info)
   } else{
     invisible(input_file)
+    return( c( basename( fasta_input_file ),organism[1,], no_entries, nrow(peptides), difftime(Sys.time(), start_time, units = "mins")))
   }
 
 }
@@ -293,33 +284,26 @@ parse_fasta <- function(fasta_input_file,
       output_dir <- "data/RData"
 
       # uniref40_castor_bean.3988.head.fasta contains 1 proteins and 30 peptides. Format is uniref.
-      fasta_input_file <-"data-raw/uniref/uniref50_castor_bean.3988.head.fasta"
-      castor1 <- parse_fasta( fasta_input_file,
-                             output_dir,
-                             return_list = TRUE )
+      #fasta_input_file <-"data-raw/uniref/uniref50_castor_bean.3988.head.fasta"
+      #castor1 <- parse_fasta( fasta_input_file, output_dir, return_list = TRUE )
 
 
-      # uniref50_castor_bean.3988.fasta containes 14625 proteins and ????? peptides. Format is uniref.
-      fasta_input_file <- "data-raw/uniref/uniref50_castor_bean.3988.fasta"
-      castor2 <- parse_fasta( fasta_input_file,
-                              output_dir,
-                             return_list = TRUE)
+      # uniref50_castor_bean.3988.fasta contains 14625 proteins and ????? peptides. Format is uniref.
+      # has 17 organisms. Not valid. Caused an error with protein = NA
+      #fasta_input_file <- "data-raw/uniref/uniref50_castor_bean.3988.fasta"
+      #castor2 <- parse_fasta( fasta_input_file, output_dir, return_list = TRUE)
 
 
-      print("< Test with proteome uniprotkb fasta >")
-      fasta_input_file <- "data-raw/uniprot/Ricinus_communis.TaxonID_3988.head.fasta"
-      castor3 <- parse_fasta( fasta_input_file,
-                              output_dir,
-                              return_list = TRUE)
+      #print("< Test with proteome uniprotkb fasta >")
+      #fasta_input_file <- "data-raw/uniprot/Ricinus_communis.TaxonID_3988.head.fasta"
+      #castor3 <- parse_fasta( fasta_input_file, output_dir,return_list = TRUE)
 
 
       #File Ricinus_communis.TaxonID_3988.fasta.gz has 31219 entries.
       #Fasta Format: uniprotkb
-      print("< Test with proteome uniprotkb gzipped fasta.gz and many proteins >")
-      fasta_input_file <- "data-raw/uniprot/Ricinus_communis.TaxonID_3988.fasta.gz"
-      castor4 <- parse_fasta( fasta_input_file,
-                              output_dir,
-                              return_list = TRUE)
+      #print("< Test with proteome uniprotkb gzipped fasta.gz and many proteins >")
+      #fasta_input_file <- "data-raw/uniprot/Ricinus_communis.TaxonID_3988.fasta.gz"
+      #castor4 <- parse_fasta( fasta_input_file, output_dir,return_list = FALSE)
 
 
       # # show the first 5 entries, without the aaseq.
@@ -329,22 +313,32 @@ parse_fasta <- function(fasta_input_file,
 
       # # "uniref50_chlamydia_pneumoniae.head.fasta contained 4 proteins and 38 peptides."
       # fasta_input_file <- "data-raw/uniref/uniref50_chlamydia_pneumoniae.head.fasta"
-      # clap1 <- parse_fasta( fasta_input_file,
-      #                      output_dir,
-      #                      return_list = TRUE )
+      # clap1 <- parse_fasta( fasta_input_file, output_dir, return_list = TRUE )
       #
       # print( str( clap1 ))
       #
       # # uniref50_chlamydia_pneumoniae.fasta contained 872 proteins and 14513 peptides.
       # "uniref50_chlamydia_pneumoniae.fasta contained 872 proteins and 14513 peptides."
-      # clap2 <- parse_fasta( "data-raw/uniref/uniref50_chlamydia_pneumoniae.fasta",
-      #                      output_dir,
-      #                      return_list = TRUE )
+      # clap2 <- parse_fasta( "data-raw/uniref/uniref50_chlamydia_pneumoniae.fasta", output_dir, return_list = TRUE )
       #
       # print( str( clap2 ))
 #}
 
 #test_all()
+
+      # process the proteomes in the data-raw/uniprot directory to create RData files in data/RData
+      uniprot_path <-"data-raw/uniprot"
+      rdata_path    <-"data/RData"
+      print( paste0("Directory for uniprot proteome input: ", uniprot_path ))
+      print( paste0("Directory for RData  output: ",  rdata_path ))
+
+      data_files<-list.files(path = uniprot_path, pattern = "*.fasta*", full.names=TRUE)
+      cat(c("There are", length(data_files),"data files"))
+      basename( data_files )
+
+      # Process the fasta files with parse_fasta to digest the proteins and create RData objects and save them in file.
+      # myfiles <- sapply(data_files, parse_fasta, output_dir=rdata_path, return_list = FALSE )
+      View( myfiles )
 
 
 
