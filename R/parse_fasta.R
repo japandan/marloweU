@@ -337,7 +337,7 @@ parse_fasta <- function(fasta_input_file,
       basename( data_files )
 
       # Process the fasta files with parse_fasta to digest the proteins and create RData objects and save them in file.
-      # myfiles <- sapply(data_files, parse_fasta, output_dir=rdata_path, return_list = FALSE )
+      myfiles <- sapply(data_files, parse_fasta, output_dir=rdata_path, return_list = FALSE )
       View( myfiles )
 
 

@@ -1,6 +1,7 @@
-#'Deletes all information in the database in preperation of data repopulation
+#'Deletes all information in the database candidate in preparation of data re-population.
+#'This is a modified version for testing with UniProt data.
 #'
-#'`delete_database` Drop the schema in preperation of data repopulation.
+#'`delete_database` Drop the schema in preparation of data re-population.
 #'
 #'@param conn database connection values to create a MySQL connection
 #'@param force When true don't prompt the user to verify if they want to delete the sample
@@ -14,18 +15,19 @@
 #'@author Daniel Vogel
 #'
 #'@export
-
-#library(MakeSearchSim)
-#library(CandidateSearchDatabase)
-#library(OrgIDPipeline)
+library( parallel)
+library( DBI )
+library(MakeSearchSim)
+library(CandidateSearchDatabase)
+library(OrgIDPipeline)
 
 # MySQL connection credentials.  These need to match your installation
 conn_list <- list(
   "dbname"= "candidate",
   "host" = "localhost",
   "port" = 3306,
-  "user" = "<user>",
-  "password" = "<password>"
+  "user" = "msdba",
+  "password" = "MassSpec2021!"
 )
 
 library(tidyverse)
@@ -112,7 +114,7 @@ create_datamodel <- function(conn,large_storage_found=F, large_storage=NULL, max
 
   #create the schema for the datamodel to live in
   DBI::dbExecute(con, 'create database candidate CHARACTER SET latin1 COLLATE latin1_swedish_ci')
-
+  #DBI::dbExecute(con, 'create database candidate CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci')
   DBI::dbDisconnect(con)
 
   con <- DBI::dbConnect(RMariaDB::MariaDB(),
@@ -522,13 +524,13 @@ create_datamodel <- function(conn,large_storage_found=F, large_storage=NULL, max
 }
 
 #'Overwrites all data in the upload tables with the data from this list of dataframes
-#'This method is multi threaded and will spawn off two threads that will upload
-#'seperate parts of the organism into the database at the same time.
+#'This method is multi-threaded and will spawn off two threads that will upload
+#'separate parts of the organism into the database at the same time.
 #'
 #'`upload_organism` Creates all tables and database code needed for this package.
 #'
 #'@param conn database connection values to create a MySQL connection
-#'@param organism a list of dataframes that contains all informations for one organism in the KEGG
+#'@param organism a list of dataframes that contains all information for one organism in the KEGG
 #'@param max_peptide_length the maximum character length of peptides to be imported
 #'
 #'@importFrom assertthat assert_that
@@ -989,7 +991,7 @@ delete_organism <- function(conn, organism_id) {
 }
 
 #'Populate the database with a given organism
-#'This method is multi threaded.  First calling upload organism which uses two
+#'This method is multi-threaded.  First calling upload organism which uses two
 #'threads to upload the organism data into the database.  Then this method
 #'populate_first_step in two threads and finishes off by calling populate_second_step
 #'in three threads.  The first step populates tables needed for the actions in
@@ -2339,7 +2341,7 @@ select node_taxon_id, node_tax_name, node_rank,superkingdom,kingdom,subkingdom,s
 #'@author Dustin Crockett
 #'
 #'@export
-build_database <- function(conn, file_location, log_filename,large_storage_found=F, large_storage="", max_peptide_length=250, core_count=2, split_size=10, strong_tolerance=0.053, max_count = 0) {
+build_database <- function(conn, file_location, log_filename="initdb.log",large_storage_found=F, large_storage="", max_peptide_length=250, core_count=2, split_size=10, strong_tolerance=0.053, max_count = 0) {
 
   #assign the log_file variable with the log file
   log_file <- file(log_filename, open = "at")
@@ -2371,8 +2373,9 @@ build_database <- function(conn, file_location, log_filename,large_storage_found
   cat("==========================Starting Organism Population===============================\n")
 
   process_one_file <- function(files, max_peptide_length) {
-
-    objectName <- load(paste0(file_location,"\\", files))
+    # change \\ to / for linux
+    #objectName <- load(paste0(file_location,"\\", files))
+    objectName <- load(paste0(file_location,"/", files))
     if(objectName == "organism_info") {
       out <- tryCatch({
         withCallingHandlers(populate_organism(conn,organism_info,max_peptide_length = max_peptide_length)
@@ -2833,4 +2836,14 @@ jaccard_index_strong <- function(conn) {
   )
 
   return(output_df)
+}
+
+## execute the build scripts
+# build_database <- function(conn, file_location, log_filename="initdb.log",large_storage_found=F, large_storage="", max_peptide_length=250, core_count=2, split_size=10, strong_tolerance=0.053, max_count = 0) {
+
+initdb <-function() {
+build_database( conn=conn_list,
+                file_location="data",
+                log_filename="initdb.log",
+                core_count="8")
 }

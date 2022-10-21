@@ -72,19 +72,19 @@ parse_fasta_header <- function( AA_list ){
 
   field_matrix <- NULL
 
-    if ( fastaformat == "uniref") {
     #Use regular expressions to pull out the needed fields.  Need to be returned as.matrix
+    #protein_id. <- UniqueIdentifier (first field, can contain underlines, e.g. UniRef50_abcdef)
+    if ( fastaformat == "uniref") {
 
-        #protein_id. <- UniqueIdentifier (first field, can contain underlines)
         field_matrix <- stringr::str_match( names(AA_list), "(^UniRef\\S+)\\s(.+)\\sn\\=\\d+.+Tax=(.+)\\sTaxID=(.+)\\s.+")
     }
 
 
     # >db|UniqueIdentifier|EntryName ProteinName OS=OrganismName OX=OrganismIdentifier
     if ( fastaformat == "uniprotkb") {
-        #Use regular expressions to pull out the needed fields.  Need to be returned as.matrix
-        #field_matrix <- stringr::str_match( names(AA_list), "\\|(.+)\\|(.+)\\s(\\w+)\\sOS=(\\w+)\\sOX=(\\w)\\s" )
+
         field_matrix <- stringr::str_match( names(AA_list), "\\|(\\w+)\\|\\w+\\s(.+)\\sOS=(.+)\\sOX=(\\w+)\\s.+" )
+
     }
 
 
