@@ -4,8 +4,17 @@
 # PNNL has 8M for this...unknown command error
 innodb_log_buffer_size = 8M
 
+# added 10/20/2022
+innodb_data_file_path=ibdata1:12M:autoextend
+innodb_read_io_threads = 64
+innodb_write_io_threads = 64
+innodb_strict_mode = OFF
+max_heap_table_size = 128G
+
 # PNNL recommends making this VERY big.. Default was 8M.  Change to 128G
-innodb_buffer_pool_size = 128G
+#innodb_buffer_pool_size = 128G
+# increased size but may have no affect since the database is already created
+innodb_buffer_pool_size = 256G
 
 # PNNL recommends 1G for this.  Default was 48M
 innodb_log_file_size = 1G
@@ -31,4 +40,7 @@ myisam_sort_buffer_size = 26G
 # PNNL has 12M for this
 key_buffer_size = 23M
 
+#set to match marlowe
+character-set-server  = latin1
+collation-server      = latin1_swedish_ci
 
