@@ -1,0 +1,2 @@
+#!/bin/bash
+mysql -uroot -e "source /home/danvogel/R/marloweU/tablesizes.sql" candidate > /home/danvogel/R/marloweU/log/mysqlstats.$(date +%H%M)
