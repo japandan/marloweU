@@ -1,0 +1,44 @@
+==========================Starting Build Database===============================
+Processed files in 'data', found 5 RData files
+Deleted the existing database, started at 2022-10-21 10:19:29, and finished at 2022-10-21 10:19:30, took a total duration of 0.1351216 seconds
+Created the new database datamodel, started at 2022-10-21 10:19:30, and finished at 2022-10-21 10:19:36, took a total duration of 6.193648 seconds
+==========================Starting Organism Population===============================
+Started processing 9913 with 23844 proteins, 1 enzymes, 1 db_links, and 782592 peptides
+upload of peptides took 64.0 seconds and all other tables took 4.6 seconds total time took 67.7 seconds
+upload of Genus(1) in 0.493s, Species(1) in 0.010s, Organisms(1) in 1.912s, Peptides(652649) in 14.087s, Sequences(23843) in 1.881s and Peptide_tags(1168149) in 42.568s total time took 44.7 seconds
+population of peptide_map(7030604) in 325.655s, organisms_to_peptides(652649) in 21.746s and dblinks(1) in 0.525s, proteins(23844) in 190.016s, enzyme(0) in 0.004s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.003s, protein_modules(0) in 0.003s, peptides_filtered(31) in 0.012s, sequence_to_peptides(779477) in 13825.749s, sequence_to_peptides_filtered(34) in 0.582s total time took 14019.6 seconds
+Started at 2022-10-21 10:19:39, and finished at 2022-10-21 14:15:11, took a total duration of 14132.0 seconds
+Started processing 85681 with 24934 proteins, 1 enzymes, 1 db_links, and 662892 peptides
+upload of peptides took 57.4 seconds and all other tables took 6.1 seconds total time took 60.8 seconds
+upload of Genus(1) in 0.503s, Species(1) in 0.019s, Organisms(1) in 1.717s, Peptides(563249) in 18.638s, Sequences(24934) in 2.525s and Peptide_tags(183061) in 28.260s total time took 30.1 seconds
+population of peptide_map(6054382) in 321.126s, organisms_to_peptides(586056) in 17.882s and dblinks(1) in 0.512s, proteins(24934) in 228.432s, enzyme(0) in 0.004s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.003s, protein_modules(0) in 0.003s, peptides_filtered(6) in 0.010s, sequence_to_peptides(662236) in 8803.484s, sequence_to_peptides_filtered(6) in 0.178s total time took 9034.9 seconds
+Started at 2022-10-21 14:15:14, and finished at 2022-10-21 16:47:20, took a total duration of 9125.8 seconds
+Started processing 6565 with 33719 proteins, 1 enzymes, 1 db_links, and 1203116 peptides
+upload of peptides took 104.0 seconds and all other tables took 8.4 seconds total time took 108.0 seconds
+upload of Genus(1) in 0.488s, Species(1) in 0.010s, Organisms(1) in 2.964s, Peptides(825026) in 28.415s, Sequences(33714) in 2.939s and Peptide_tags(138908) in 36.127s total time took 37.9 seconds
+population of peptide_map(9184225) in 509.151s, organisms_to_peptides(876976) in 36.286s and dblinks(1) in 0.489s, proteins(33719) in 401.742s, enzyme(0) in 0.003s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.002s, protein_modules(0) in 0.002s, peptides_filtered(89) in 0.070s, sequence_to_peptides(1192616) in 22795.522s, sequence_to_peptides_filtered(89) in 1.917s total time took 23202.1 seconds
+Started at 2022-10-21 16:47:22, and finished at 2022-10-21 23:16:30, took a total duration of 23348.0 seconds
+Started processing 3988 with 31219 proteins, 1 enzymes, 1 db_links, and 680351 peptides
+upload of peptides took 59.3 seconds and all other tables took 6.8 seconds total time took 62.7 seconds
+upload of Genus(1) in 0.500s, Species(1) in 0.019s, Organisms(1) in 1.936s, Peptides(529692) in 20.015s, Sequences(31210) in 2.092s and Peptide_tags(32621) in 23.606s total time took 26.3 seconds
+population of peptide_map(6037625) in 355.432s, organisms_to_peptides(630447) in 24.883s and dblinks(1) in 0.348s, proteins(31219) in 332.534s, enzyme(0) in 0.004s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.002s, protein_modules(0) in 0.003s, peptides_filtered(11) in 0.011s, sequence_to_peptides(679861) in 11103.801s, sequence_to_peptides_filtered(11) in 0.291s total time took 11439.3 seconds
+Started at 2022-10-21 23:16:32, and finished at 2022-10-22 02:28:40, took a total duration of 11528.5 seconds
+Started processing 8040 with 35973 proteins, 1 enzymes, 1 db_links, and 1344413 peptides
+upload of peptides took 118.8 seconds and all other tables took 8.5 seconds total time took 123.2 seconds
+upload of Genus(1) in 0.499s, Species(1) in 0.010s, Organisms(1) in 2.978s, Peptides(603899) in 22.797s, Sequences(35951) in 3.057s and Peptide_tags(27992) in 29.560s total time took 31.4 seconds
+population of peptide_map(7724128) in 454.015s, organisms_to_peptides(696618) in 36.603s and dblinks(1) in 0.480s, proteins(35973) in 468.932s, enzyme(0) in 0.004s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.003s, protein_modules(0) in 0.003s, peptides_filtered(238) in 0.122s, sequence_to_peptides(1325878) in 26513.725s, sequence_to_peptides_filtered(265) in 6.005s total time took 26991.6 seconds
+Started at 2022-10-22 02:28:44, and finished at 2022-10-22 10:01:10, took a total duration of 27146.3 seconds
+Populated 5 organisms into the database, started at 2022-10-21 10:19:36, and finished at 2022-10-22 10:01:10, took a total duration of 85294.3 seconds
+==========================Starting Data Analysis===============================
+Populated strong_peptide_temp for all genus, started at 2022-10-22 10:01:10, and finished at 2022-10-22 10:02:00, took a total duration of 50.0707 seconds
+Populated strong_peptides for all genus, started at 2022-10-22 10:02:00, and finished at 2022-10-22 10:08:14, took a total duration of 373.3547 seconds
+Populated strong_peptide_counts for all organisms, started at 2022-10-22 10:08:14, and finished at 2022-10-22 10:08:31, took a total duration of 17.11978 seconds
+Generated strong peptide data, started at 2022-10-22 10:01:10, and finished at 2022-10-22 10:08:31, took a total duration of 440.7308 seconds
+Populated 5 overlaps, started at 2022-10-22 10:08:38 finished at 2022-10-22 10:09:34, took 55.494 seconds 
+id=1 took 6.215 s, id=2 took 5.351 s, id=3 took 28.355 s, id=4 took 6.948 s, id=5 took 8.130 s, 
+
+TRUEPopulated overlap_coefficient for 5 organisms, started at 2022-10-22 10:08:31, and finished at 2022-10-22 10:09:34, took a total duration of 62.79223 seconds
+Generated overlap coefficient data, started at 2022-10-22 10:08:31, and finished at 2022-10-22 10:09:34, took a total duration of 63.01295 seconds
+Created index for peptide_map table, started at 2022-10-22 10:09:34, and finished at 2022-10-22 10:12:20, took a total duration of 165.7844 seconds
+Optimized the database, started at 2022-10-22 10:09:34, and finished at 2022-10-22 10:12:20, took a total duration of 165.88 seconds
+====Full Build of database, started at 2022-10-22 10:09:34, and finished at 2022-10-22 10:12:20, took a total duration of 85970.25 seconds====

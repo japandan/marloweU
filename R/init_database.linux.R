@@ -15,8 +15,9 @@
 #'@author Daniel Vogel
 #'
 #'@export
-library( parallel)
+library( parallel )
 library( DBI )
+library( magrittr )
 library(MakeSearchSim)
 library(CandidateSearchDatabase)
 library(OrgIDPipeline)
@@ -2844,6 +2845,6 @@ jaccard_index_strong <- function(conn) {
 initdb <-function() {
 build_database( conn=conn_list,
                 file_location="data",
-                log_filename="initdb.log",
-                core_count="8")
+                log_filename="log/initdb.log",
+                core_count=16)
 }
