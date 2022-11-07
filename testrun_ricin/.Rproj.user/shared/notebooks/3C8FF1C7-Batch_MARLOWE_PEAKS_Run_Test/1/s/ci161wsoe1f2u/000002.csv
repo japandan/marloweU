@@ -1,0 +1,29 @@
+"0","```r
+purrr::pwalk(
+  list(sample_id = names(all_tags), sample = all_tags),
+  CandidateSearchDatabase::upload_sample,
+  conn = conn_list
+)
+```"
+"1","[1] \"Starting upload of sample Rcom_1_M0_AM_R1_7Mar16_Samwise_15-08-55 Started at 2021-10-15 15:41:21, and finished at 2021-10-15 15:41:21 took 0.0 seconds with 187 tag samples.\"
+[1] \"creating new sample set Rcom_1_M0_AM_R1_7Mar16_Samwise_15-08-55 with 187 tag samples.\"
+[1] \"creating samples for Rcom_1_M0_AM_R1_7Mar16_Samwise_15-08-55 with 187 tag samples.\"
+[1] \"created samples for Rcom_1_M0_AM_R1_7Mar16_Samwise_15-08-55 Started at 2021-10-15 15:41:21, and finished at 2021-10-15 15:41:21 took 0.3 seconds\"
+[1] \"populated sample_to_peptides for Rcom_1_M0_AM_R1_7Mar16_Samwise_15-08-55 Started at 2021-10-15 15:41:21, and finished at 2021-10-15 15:41:22 took 0.9 seconds\"
+[1] \"creating sample_peptide_to_organisms for Rcom_1_M0_AM_R1_7Mar16_Samwise_15-08-55 Started at 2021-10-15 15:41:22, and finished at 2021-10-15 15:41:22 took 0.2 seconds\"
+[1] \"Uploaded sample Rcom_1_M0_AM_R1_7Mar16_Samwise_15-08-55 with 187 tag samples.\"
+[1] \"Starting upload of sample Rcom_9_M4_AM_R1_7Mar16_Samwise_15-08-55 Started at 2021-10-15 15:41:22, and finished at 2021-10-15 15:41:22 took 0.0 seconds with 579 tag samples.\"
+[1] \"creating new sample set Rcom_9_M4_AM_R1_7Mar16_Samwise_15-08-55 with 579 tag samples.\"
+[1] \"creating samples for Rcom_9_M4_AM_R1_7Mar16_Samwise_15-08-55 with 579 tag samples.\"
+[1] \"created samples for Rcom_9_M4_AM_R1_7Mar16_Samwise_15-08-55 Started at 2021-10-15 15:41:22, and finished at 2021-10-15 15:41:22 took 0.4 seconds\"
+[1] \"populated sample_to_peptides for Rcom_9_M4_AM_R1_7Mar16_Samwise_15-08-55 Started at 2021-10-15 15:41:22, and finished at 2021-10-15 15:41:25 took 2.8 seconds\"
+[1] \"creating sample_peptide_to_organisms for Rcom_9_M4_AM_R1_7Mar16_Samwise_15-08-55 Started at 2021-10-15 15:41:25, and finished at 2021-10-15 15:41:26 took 0.4 seconds\"
+[1] \"Uploaded sample Rcom_9_M4_AM_R1_7Mar16_Samwise_15-08-55 with 579 tag samples.\"
+[1] \"Starting upload of sample Rcom_GCH4_1_2_03Jun16_Samwise_16-03-32 Started at 2021-10-15 15:41:26, and finished at 2021-10-15 15:41:26 took 0.0 seconds with 1690 tag samples.\"
+[1] \"creating new sample set Rcom_GCH4_1_2_03Jun16_Samwise_16-03-32 with 1690 tag samples.\"
+[1] \"creating samples for Rcom_GCH4_1_2_03Jun16_Samwise_16-03-32 with 1690 tag samples.\"
+[1] \"created samples for Rcom_GCH4_1_2_03Jun16_Samwise_16-03-32 Started at 2021-10-15 15:41:26, and finished at 2021-10-15 15:41:26 took 0.5 seconds\"
+[1] \"populated sample_to_peptides for Rcom_GCH4_1_2_03Jun16_Samwise_16-03-32 Started at 2021-10-15 15:41:26, and finished at 2021-10-15 15:41:33 took 7.2 seconds\"
+[1] \"creating sample_peptide_to_organisms for Rcom_GCH4_1_2_03Jun16_Samwise_16-03-32 Started at 2021-10-15 15:41:33, and finished at 2021-10-15 15:41:34 took 0.6 seconds\"
+[1] \"Uploaded sample Rcom_GCH4_1_2_03Jun16_Samwise_16-03-32 with 1690 tag samples.\"
+"

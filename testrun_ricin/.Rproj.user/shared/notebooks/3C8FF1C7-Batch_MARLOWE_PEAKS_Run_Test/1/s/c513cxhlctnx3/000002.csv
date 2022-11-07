@@ -1,0 +1,33 @@
+"0","```r
+organism_metadata <- CandidateSearchDatabase::organism_info(conn_list)
+
+# Use this matrix for taxonomic groups
+overlap_mat <- CandidateSearchDatabase::overlap_coefficients(conn_list) %>%
+  column_to_rownames(\"kegg_id\") %>%
+  replace(is.na(.), 1.)
+# save for future in the directory above the project
+save( overlap_mat, file = \"../overlap_mat.RData\")
+
+# Use this matrix for scoring
+overlap_mat_for_scoring <-
+  CandidateSearchDatabase::overlap_coefficients_strong(conn_list) %>%
+  column_to_rownames(\"kegg_id\") %>%
+  replace(is.na(.), 1.)
+# save for future in the directory above the project
+save( overlap_mat_for_scoring, file = \"../overlap_mat_for_scoring.RData\")
+
+grouping <- CandidateSearchDatabase::leader_similarity_cluster(
+  as.matrix(overlap_mat),
+  minimum_overlap_coefficent = .5
+)
+
+organism_metadata <- organism_metadata %>%
+  left_join(
+    grouping,
+    by=c(\"kegg_id\" = \"org_id\")
+  )
+# save for future in the directory above the project
+save( organism_metadata, file = \"../organism_metadata.RData\")
+rm(grouping)
+
+```"

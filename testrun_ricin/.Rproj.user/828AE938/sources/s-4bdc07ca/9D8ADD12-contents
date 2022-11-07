@@ -1,0 +1,363 @@
+---
+title: "MARLOWE with PEAKS on Sample set:multi_file_PEAKS_test.csv"
+author: "Daniel Vogel"
+date: "10/25/2022"
+output:
+  html_notebook:
+    df_print: paged
+    toc: yes
+    toc_depth: 2
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+library(MakeSearchSim)
+library(CandidateSearchDatabase)
+library(OrgIDPipeline)
+library(tidyverse)
+library(easycsv) ##for choose_dir()
+
+
+conn_list <- list(
+  "dbname"= "candidate",
+  "host" = "localhost",
+  "port" = 3306,
+  "user" = "msdba",
+  "password" = "MassSpec2021!"
+)
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Getting User-defined inputs
+
+
+Specify path to folder with input PEAKS result files as well as other inputs.
+```{r get-folders}
+#Choose a directory to write the results from various steps in the pipeline
+results_folder <- getwd()
+
+#creating folders to hold results from various parts in the pipeline
+
+#folder to hold denovo tag dataframes
+tag_output_folder <- file.path(
+      normalizePath(results_folder, winslash = "/"),
+      "denovo_tags",
+      fsep = "/"
+    )
+
+ 
+if(!dir.exists(tag_output_folder)){
+  dir.create(tag_output_folder)
+}
+
+
+#folder to write raw tag-peptide-protein matches and count matrices
+database_query_output_folder <- file.path(
+      normalizePath(results_folder, winslash = "/"),
+      "raw_matches_strong_counts",
+      fsep = "/"
+    )
+
+if(!dir.exists(database_query_output_folder)){
+  dir.create(database_query_output_folder)
+}
+
+
+#folder to write filtered count matrices
+filtered_counts_folder <- file.path(
+      normalizePath(results_folder, winslash = "/"),
+      "filtered_counts",
+      fsep = "/"
+    )
+
+if(!dir.exists(filtered_counts_folder)){
+  dir.create(filtered_counts_folder)
+}
+
+
+#folder to save taxonomic scores
+taxonomic_scores_output_folder <- file.path(
+      normalizePath(results_folder, winslash = "/"),
+      "taxonomic_scores",
+      fsep = "/"
+    )
+
+if(!dir.exists(taxonomic_scores_output_folder)){
+  dir.create(taxonomic_scores_output_folder)
+}
+
+
+
+```
+
+**Load/Generate overlap matrices and taxonomic groups**
+
+Load the RData files that contain the organism_metadata dataframe and the
+overlap_mat_for_scoring dataframe.
+```{r load-matrices-and-taxon-groups}
+# #must create variable named organism_metadata
+# metadata_file <-file.choose() 
+# load(metadata_file)
+# #must create variable named overlap_mat_for_scoring
+# scoring_overlap_file <- file.choose()
+# load(scoring_overlap_file)
+```
+
+
+Un-comment (Select lines then Ctrl-Shift-C) and run the below chunk if you don't
+have the necessary matrices already saved. They can be saved and re-used until
+new organisms are added to the database. Save the overlap_mat_for_scoring and
+organism_metadata dataframes.
+```{r generate-matrices-and-taxon-groups}
+organism_metadata <- CandidateSearchDatabase::organism_info(conn_list)
+
+# Use this matrix for taxonomic groups
+overlap_mat <- CandidateSearchDatabase::overlap_coefficients(conn_list) %>%
+  column_to_rownames("kegg_id") %>%
+  replace(is.na(.), 1.)
+
+# Use this matrix for scoring
+overlap_mat_for_scoring <-
+  CandidateSearchDatabase::overlap_coefficients_strong(conn_list) %>%
+  column_to_rownames("kegg_id") %>%
+  replace(is.na(.), 1.)
+
+grouping <- CandidateSearchDatabase::leader_similarity_cluster(
+  as.matrix(overlap_mat),
+  minimum_overlap_coefficent = .5
+)
+
+organism_metadata <- organism_metadata %>%
+  left_join(
+    grouping,
+    by=c("kegg_id" = "org_id")
+  )
+rm(grouping)
+
+```
+
+
+# Generate Tags from PEAKS
+
+PEAKS generates a csv which is named `de novo peptides.csv` by default. It can
+contain results from multiple source files. `batch_PEAKS_tags()` will filter the
+PSMs by ALC and peptide length then split them by Source File and generate tags
+on each file's PSMs individually.
+    
+The function will write RData files (one for each file in the Source.File
+column), containing the results in the `output_dir`.
+    
+If `return_tags = TRUE` the function will return a list of dataframes, one for
+each file in the Source.File column. These dataframes can be used as the input
+for the next step of MARLOWE.
+
+```{r generate-PEAKS-tags}
+#peaks_output_path <- choose.files(caption = "Select PEAKS de novo output csv",
+#                                  multi = FALSE)
+peaks_output_path <- "multi_file_PEAKS_test.csv"
+
+all_tags <-
+  batch_PEAKS_tags(
+    PEAKS_output_csv_path = peaks_output_path,
+    output_dir = tag_output_folder,
+    LC_threshold = 80,
+    min_ALC = 50,
+    min_tag_length = 5,
+    min_peptide_length = 6,
+    ppm_error = 15,
+    return_tags = TRUE
+  )
+
+```
+
+
+
+# Uploading tags to database
+
+`sample_id` must be a unique string, if a sample with the same sample_id already
+exists in the database it will be overwritten.
+
+If a list is returned by `batch_PEAKS_tags()` the name of each element will be
+the value in the Source.File column of the input but with the extension removed.
+
+Uploading tags to database
+## check this https://jira.mariadb.org/browse/MDEV-20356
+```{r upload-tags}
+purrr::pwalk(
+  list(sample_id = names(all_tags), sample = all_tags),
+  upload_sample,
+  conn = conn_list
+)
+```
+
+
+If you need to load the tags from their RData files uncomment then use the below
+chunk:
+
+```{r load-tag-Rdata-then-upload}
+# tag_paths <- list.files(path = tag_output_folder,
+#                         pattern = ".*_tags.RData",
+#                         full.names = TRUE)
+# #naming each element
+# names(tag_paths) <- gsub("_Peaks_tags.RData", "", basename(tag_paths), fixed = TRUE)
+# 
+# #the name of each element will now be the Source File with the extension removed
+# all_tags <- purrr::map(tag_paths, CandidateSearchDatabase::load_rdata_into)
+# 
+# purrr::pwalk(
+#   list(sample_id = names(all_tags), sample = all_tags),
+#   CandidateSearchDatabase::upload_sample,
+#   conn = conn_list
+# )
+```
+
+
+
+# Downloading database results
+
+Downloading all raw tag-peptide-protein matches as well as tags counts per organism.
+
+If `delete_sample_on_completion = TRUE` (default) then the tags for each sample
+will be deleted from the database once the results are downloaded. This prevents
+queries from slowing down as the tables that store the sample data get bigger.
+
+```{r download-database-query-results}
+result_paths <-
+  purrr::map(
+    names(all_tags),
+    CandidateSearchDatabase::save_database_hits,
+    conn_list = conn_list,
+    output_dir = database_query_output_folder,
+    delete_sample_on_completion = TRUE
+  )
+```
+
+
+# Filtering tag matches
+
+Filtering counts for all files
+```{r run-filter-counts}
+strong_count_files <-
+  list.files(path = database_query_output_folder,
+             pattern = "*._strong_counts.csv",
+             full.names = TRUE)
+
+raw_pep_files <- list.files(path = database_query_output_folder,
+             pattern = "*._peptide_matches.csv",
+             full.names = TRUE)
+
+filt_count_files <-
+  purrr::map2(strong_count_files,
+              raw_pep_files,
+              filter_counts,
+              min_pep_per_prot = 2,
+              output_dir = filtered_counts_folder)
+
+```
+
+# Scoring organisms
+
+If `fasta_for_filter_path` is not NULL all tags that are found within the
+specified fasta file are removed.
+
+`min_group_hits` is used to filter taxonomic groups before scoring. If a
+taxonomic group has total hits < `min_group_hits` it is removed prior to
+calculating pos_scores and org_scores. If there is only one taxonomic group that
+passes the `min_group_hits` filter then  pos_scores and org_scores won't be
+calculated and those columns won't exist in the output.
+
+For more information use `?run_organism_scoring`.
+
+```{r run-scoring}
+#overlap matrices and organism_metadata should already be loaded 
+filt_files <-
+  list.files(path = filtered_counts_folder,
+             pattern = "_filt_sample_counts.csv",
+             full.names = TRUE)
+
+score_files <- purrr::map(
+    filt_files,
+    run_organism_scoring,
+    fasta_for_filter = "crap.fasta",
+    organism_metadata_df = organism_metadata,
+    scoring_overlap_mat = overlap_mat_for_scoring,
+    output_dir = taxonomic_scores_output_folder,
+    Pthrsh = 0.4,
+    min_total_tags = 10,
+    min_total_strong_tags = 10,
+    min_organism_strong_tags = 1,
+    min_group_hits = 2,
+    export_matrix = TRUE
+  )
+```
+
+
+
+# Generating Heatmaps
+
+## Organism level heatmap
+Set `min_pos_score` and `min_org_hits` parameters to prevent too many organisms
+from being included in the plot. The values of these parameters will be included
+in the output filename.
+
+Use the `overlap_mat` generated in Chunk 4: generate-matrices-and-taxon-groups
+to visualize the overlap coefficients based on all peptides. Use the
+`overlap_mat_for_scoring` to visualize the overlap coefficients based on strong
+peptides only.
+
+
+```{r}
+
+#target_score_file_path <- 
+target_score_file_path <- score_files[[3]]
+
+#load overlap_mat
+# load()
+  
+omap <- organism_heatmap(score_file_path = target_score_file_path,
+                      overlap_matrix = overlap_mat,
+                      output_dir = ".",
+                      output_type = "jpeg",
+                      min_org_hits =1 ,
+                      min_pos_score =1 ,
+                      width = 10,
+                      height = 7,
+                      units = "in")
+
+
+plot(omap)
+```
+
+## Group level heatmap
+The `_reduced_matrix.csv` file will be in the `taxonomic_scores_output_folder`
+if `export_matrix = TRUE` in the `run_organism_scoring()` call above.
+
+Set the `min_pos_score` parameter to prevent too many organisms
+from being included in the plot. The value of this parameter will be included
+in the output filename.
+
+```{r}
+reduced_matrix_csv <- gsub("organism_scores.csv", 
+                           "reduced_matrix.csv",
+                           target_score_file_path, 
+                           fixed = TRUE)
+
+gmap <- group_heatmap(score_file_path = target_score_file_path,
+                      reduced_matrix_path = reduced_matrix_csv,
+                      output_dir = ".",
+                      output_type = "jpeg",
+                      min_pos_score = )
+
+plot(gmap)
+```
+
+
+
+
+
+
+# Reproducibility Information
+```{r colophon}
+sessionInfo()
+```

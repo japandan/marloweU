@@ -1,0 +1,16 @@
+"0","```r
+# tag_paths <- list.files(path = tag_output_folder,
+#                         pattern = \".*_tags.RData\",
+#                         full.names = TRUE)
+# #naming each element
+# names(tag_paths) <- gsub(\"_Peaks_tags.RData\", \"\", basename(tag_paths), fixed = TRUE)
+# 
+# #the name of each element will now be the Source File with the extension removed
+# all_tags <- purrr::map(tag_paths, CandidateSearchDatabase::load_rdata_into)
+# 
+# purrr::pwalk(
+#   list(sample_id = names(all_tags), sample = all_tags),
+#   CandidateSearchDatabase::upload_sample,
+#   conn = conn_list
+# )
+```"

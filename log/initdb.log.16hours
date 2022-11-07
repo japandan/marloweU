@@ -1,0 +1,410 @@
+==========================Starting Build Database===============================
+Processed files in 'data', found 5 RData files
+Deleted the existing database, started at 2022-10-21 10:19:29, and finished at 2022-10-21 10:19:30, took a total duration of 0.1351216 seconds
+Created the new database datamodel, started at 2022-10-21 10:19:30, and finished at 2022-10-21 10:19:36, took a total duration of 6.193648 seconds
+==========================Starting Organism Population===============================
+Started processing 9913 with 23844 proteins, 1 enzymes, 1 db_links, and 782592 peptides
+upload of peptides took 64.0 seconds and all other tables took 4.6 seconds total time took 67.7 seconds
+upload of Genus(1) in 0.493s, Species(1) in 0.010s, Organisms(1) in 1.912s, Peptides(652649) in 14.087s, Sequences(23843) in 1.881s and Peptide_tags(1168149) in 42.568s total time took 44.7 seconds
+population of peptide_map(7030604) in 325.655s, organisms_to_peptides(652649) in 21.746s and dblinks(1) in 0.525s, proteins(23844) in 190.016s, enzyme(0) in 0.004s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.003s, protein_modules(0) in 0.003s, peptides_filtered(31) in 0.012s, sequence_to_peptides(779477) in 13825.749s, sequence_to_peptides_filtered(34) in 0.582s total time took 14019.6 seconds
+Started at 2022-10-21 10:19:39, and finished at 2022-10-21 14:15:11, took a total duration of 14132.0 seconds
+Started processing 85681 with 24934 proteins, 1 enzymes, 1 db_links, and 662892 peptides
+upload of peptides took 57.4 seconds and all other tables took 6.1 seconds total time took 60.8 seconds
+upload of Genus(1) in 0.503s, Species(1) in 0.019s, Organisms(1) in 1.717s, Peptides(563249) in 18.638s, Sequences(24934) in 2.525s and Peptide_tags(183061) in 28.260s total time took 30.1 seconds
+population of peptide_map(6054382) in 321.126s, organisms_to_peptides(586056) in 17.882s and dblinks(1) in 0.512s, proteins(24934) in 228.432s, enzyme(0) in 0.004s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.003s, protein_modules(0) in 0.003s, peptides_filtered(6) in 0.010s, sequence_to_peptides(662236) in 8803.484s, sequence_to_peptides_filtered(6) in 0.178s total time took 9034.9 seconds
+Started at 2022-10-21 14:15:14, and finished at 2022-10-21 16:47:20, took a total duration of 9125.8 seconds
+Started processing 6565 with 33719 proteins, 1 enzymes, 1 db_links, and 1203116 peptides
+upload of peptides took 104.0 seconds and all other tables took 8.4 seconds total time took 108.0 seconds
+upload of Genus(1) in 0.488s, Species(1) in 0.010s, Organisms(1) in 2.964s, Peptides(825026) in 28.415s, Sequences(33714) in 2.939s and Peptide_tags(138908) in 36.127s total time took 37.9 seconds
+population of peptide_map(9184225) in 509.151s, organisms_to_peptides(876976) in 36.286s and dblinks(1) in 0.489s, proteins(33719) in 401.742s, enzyme(0) in 0.003s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.002s, protein_modules(0) in 0.002s, peptides_filtered(89) in 0.070s, sequence_to_peptides(1192616) in 22795.522s, sequence_to_peptides_filtered(89) in 1.917s total time took 23202.1 seconds
+Started at 2022-10-21 16:47:22, and finished at 2022-10-21 23:16:30, took a total duration of 23348.0 seconds
+Started processing 3988 with 31219 proteins, 1 enzymes, 1 db_links, and 680351 peptides
+upload of peptides took 59.3 seconds and all other tables took 6.8 seconds total time took 62.7 seconds
+upload of Genus(1) in 0.500s, Species(1) in 0.019s, Organisms(1) in 1.936s, Peptides(529692) in 20.015s, Sequences(31210) in 2.092s and Peptide_tags(32621) in 23.606s total time took 26.3 seconds
+population of peptide_map(6037625) in 355.432s, organisms_to_peptides(630447) in 24.883s and dblinks(1) in 0.348s, proteins(31219) in 332.534s, enzyme(0) in 0.004s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.002s, protein_modules(0) in 0.003s, peptides_filtered(11) in 0.011s, sequence_to_peptides(679861) in 11103.801s, sequence_to_peptides_filtered(11) in 0.291s total time took 11439.3 seconds
+Started at 2022-10-21 23:16:32, and finished at 2022-10-22 02:28:40, took a total duration of 11528.5 seconds
+Started processing 8040 with 35973 proteins, 1 enzymes, 1 db_links, and 1344413 peptides
+upload of peptides took 118.8 seconds and all other tables took 8.5 seconds total time took 123.2 seconds
+upload of Genus(1) in 0.499s, Species(1) in 0.010s, Organisms(1) in 2.978s, Peptides(603899) in 22.797s, Sequences(35951) in 3.057s and Peptide_tags(27992) in 29.560s total time took 31.4 seconds
+population of peptide_map(7724128) in 454.015s, organisms_to_peptides(696618) in 36.603s and dblinks(1) in 0.480s, proteins(35973) in 468.932s, enzyme(0) in 0.004s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.003s, protein_modules(0) in 0.003s, peptides_filtered(238) in 0.122s, sequence_to_peptides(1325878) in 26513.725s, sequence_to_peptides_filtered(265) in 6.005s total time took 26991.6 seconds
+Started at 2022-10-22 02:28:44, and finished at 2022-10-22 10:01:10, took a total duration of 27146.3 seconds
+Populated 5 organisms into the database, started at 2022-10-21 10:19:36, and finished at 2022-10-22 10:01:10, took a total duration of 85294.3 seconds
+==========================Starting Data Analysis===============================
+Populated strong_peptide_temp for all genus, started at 2022-10-22 10:01:10, and finished at 2022-10-22 10:02:00, took a total duration of 50.0707 seconds
+Populated strong_peptides for all genus, started at 2022-10-22 10:02:00, and finished at 2022-10-22 10:08:14, took a total duration of 373.3547 seconds
+Populated strong_peptide_counts for all organisms, started at 2022-10-22 10:08:14, and finished at 2022-10-22 10:08:31, took a total duration of 17.11978 seconds
+Generated strong peptide data, started at 2022-10-22 10:01:10, and finished at 2022-10-22 10:08:31, took a total duration of 440.7308 seconds
+Populated 5 overlaps, started at 2022-10-22 10:08:38 finished at 2022-10-22 10:09:34, took 55.494 seconds 
+id=1 took 6.215 s, id=2 took 5.351 s, id=3 took 28.355 s, id=4 took 6.948 s, id=5 took 8.130 s, 
+
+TRUEPopulated overlap_coefficient for 5 organisms, started at 2022-10-22 10:08:31, and finished at 2022-10-22 10:09:34, took a total duration of 62.79223 seconds
+Generated overlap coefficient data, started at 2022-10-22 10:08:31, and finished at 2022-10-22 10:09:34, took a total duration of 63.01295 seconds
+Created index for peptide_map table, started at 2022-10-22 10:09:34, and finished at 2022-10-22 10:12:20, took a total duration of 165.7844 seconds
+Optimized the database, started at 2022-10-22 10:09:34, and finished at 2022-10-22 10:12:20, took a total duration of 165.88 seconds
+====Full Build of database, started at 2022-10-22 10:09:34, and finished at 2022-10-22 10:12:20, took a total duration of 85970.25 seconds====
+==========================Starting Build Database===============================
+Processed files in 'data', found 8 RData files
+==========================Starting Build Database===============================
+Processed files in 'data', found 8 RData files
+Deleted the existing database, started at 2022-10-28 00:47:12, and finished at 2022-10-28 00:47:12, took a total duration of 0.1111438 seconds
+Created the new database datamodel, started at 2022-10-28 00:47:12, and finished at 2022-10-28 00:47:24, took a total duration of 11.5612 seconds
+==========================Starting Organism Population===============================
+Started processing 9913 with 23844 proteins, 1 enzymes, 1 db_links, and 782592 peptides
+==========================Starting Build Database===============================
+Processed files in 'data', found 8 RData files
+Deleted the existing database, started at 2022-10-28 01:20:25, and finished at 2022-10-28 01:20:25, took a total duration of 0.1164019 seconds
+Created the new database datamodel, started at 2022-10-28 01:20:25, and finished at 2022-10-28 01:20:35, took a total duration of 9.84669 seconds
+==========================Starting Organism Population===============================
+Started processing 9913 with 23844 proteins, 1 enzymes, 1 db_links, and 782592 peptides
+upload of peptides took 6700.3 seconds and all other tables took 7.2 seconds total time took 6703.8 seconds
+upload of Genus(1) in 0.530s, Species(1) in 0.045s, Organisms(1) in 1.686s, Peptides(652649) in 23.482s, Sequences(23843) in 2.392s and Peptide_tags(1168149) in 61.487s total time took 63.3 seconds
+[[1]]
+initdb()
+
+[[2]]
+build_database( conn=conn_list,
+                file_location="data",
+                log_filename="log/initdb.log",
+                core_count=24)
+
+[[3]]
+tmp <- lapply(files[1:length(files)], process_one_file, max_peptide_length = max_peptide_length)
+
+[[4]]
+FUN(X[[i]], ...)
+
+[[5]]
+out <- tryCatch({
+        withCallingHandlers(populate_organism(conn,organism_info,max_peptide_length = max_peptide_length)
+                            ,error=function(e) {print(sys.calls())}
+                            ,warning=function(w) {print(sys.calls())
+                              invokeRestart("muffleWarning")}
+        )
+      },
+      error = function(m) { print(m) }
+      )
+
+[[6]]
+tryCatchList(expr, classes, parentenv, handlers)
+
+[[7]]
+tryCatchOne(expr, names, parentenv, handlers[[1L]])
+
+[[8]]
+doTryCatch(return(expr), name, parentenv, handler)
+
+[[9]]
+withCallingHandlers(populate_organism(conn,organism_info,max_peptide_length = max_peptide_length)
+                            ,error=function(e) {print(sys.calls())}
+                            ,warning=function(w) {print(sys.calls())
+                              invokeRestart("muffleWarning")}
+        )
+
+[[10]]
+withCallingHandlers(populate_organism(conn,organism_info,max_peptide_length = max_peptide_length)
+                            ,error=function(e) {print(sys.calls())}
+                            ,warning=function(w) {print(sys.calls())
+                              invokeRestart("muffleWarning")}
+        )
+
+[[11]]
+full_result <- parLapply("cl"=cl, "X" = range_test, "fun" = populate_second_step, chunk.size = 1, conn= conn, has_pathways=has_pathways, has_modules=has_modules)
+
+[[12]]
+do.call(c, clusterApply(cl = cl, x = splitList(X, nchunks), fun = lapply, 
+    FUN = fun, ...), quote = TRUE)
+
+[[13]]
+clusterApply(cl = cl, x = splitList(X, nchunks), fun = lapply, 
+    FUN = fun, ...)
+
+[[14]]
+staticClusterApply(cl, fun, length(x), argfun)
+
+[[15]]
+checkForRemoteErrors(val)
+
+[[16]]
+stop("one node produced an error: ", firstmsg, domain = NA)
+
+[[17]]
+.handleSimpleError(function(e) {print(sys.calls())}, "one node produced an error: Expression #3 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'dups.dup_count' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by [1055]", 
+    base::quote(checkForRemoteErrors(val)))
+
+[[18]]
+h(simpleError(msg, call))
+
+<simpleError in checkForRemoteErrors(val): one node produced an error: Expression #3 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'dups.dup_count' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by [1055]>
+Started processing 85681 with 24934 proteins, 1 enzymes, 1 db_links, and 662892 peptides
+upload of peptides took 5654.8 seconds and all other tables took 7.8 seconds total time took 5658.2 seconds
+upload of Genus(1) in 0.520s, Species(1) in 0.024s, Organisms(1) in 1.373s, Peptides(563249) in 24.524s, Sequences(24934) in 1.559s and Peptide_tags(183061) in 66.318s total time took 68.1 seconds
+[[1]]
+initdb()
+
+[[2]]
+build_database( conn=conn_list,
+                file_location="data",
+                log_filename="log/initdb.log",
+                core_count=24)
+
+[[3]]
+tmp <- lapply(files[1:length(files)], process_one_file, max_peptide_length = max_peptide_length)
+
+[[4]]
+FUN(X[[i]], ...)
+
+[[5]]
+out <- tryCatch({
+        withCallingHandlers(populate_organism(conn,organism_info,max_peptide_length = max_peptide_length)
+                            ,error=function(e) {print(sys.calls())}
+                            ,warning=function(w) {print(sys.calls())
+                              invokeRestart("muffleWarning")}
+        )
+      },
+      error = function(m) { print(m) }
+      )
+
+[[6]]
+tryCatchList(expr, classes, parentenv, handlers)
+
+[[7]]
+tryCatchOne(expr, names, parentenv, handlers[[1L]])
+
+[[8]]
+doTryCatch(return(expr), name, parentenv, handler)
+
+[[9]]
+withCallingHandlers(populate_organism(conn,organism_info,max_peptide_length = max_peptide_length)
+                            ,error=function(e) {print(sys.calls())}
+                            ,warning=function(w) {print(sys.calls())
+                              invokeRestart("muffleWarning")}
+        )
+
+[[10]]
+withCallingHandlers(populate_organism(conn,organism_info,max_peptide_length = max_peptide_length)
+                            ,error=function(e) {print(sys.calls())}
+                            ,warning=function(w) {print(sys.calls())
+                              invokeRestart("muffleWarning")}
+        )
+
+[[11]]
+full_result <- parLapply("cl"=cl, "X" = range_test, "fun" = populate_second_step, chunk.size = 1, conn= conn, has_pathways=has_pathways, has_modules=has_modules)
+
+[[12]]
+do.call(c, clusterApply(cl = cl, x = splitList(X, nchunks), fun = lapply, 
+    FUN = fun, ...), quote = TRUE)
+
+[[13]]
+clusterApply(cl = cl, x = splitList(X, nchunks), fun = lapply, 
+    FUN = fun, ...)
+
+[[14]]
+staticClusterApply(cl, fun, length(x), argfun)
+
+[[15]]
+checkForRemoteErrors(val)
+
+[[16]]
+stop("one node produced an error: ", firstmsg, domain = NA)
+
+[[17]]
+.handleSimpleError(function(e) {print(sys.calls())}, "one node produced an error: Expression #3 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'dups.dup_count' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by [1055]", 
+    base::quote(checkForRemoteErrors(val)))
+
+[[18]]
+h(simpleError(msg, call))
+
+<simpleError in checkForRemoteErrors(val): one node produced an error: Expression #3 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'dups.dup_count' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by [1055]>
+Started processing 2711 with 28128 proteins, 1 enzymes, 1 db_links, and 633561 peptides
+upload of peptides took 5420.0 seconds and all other tables took 9.9 seconds total time took 5423.4 seconds
+upload of Genus(0) in 0.520s, Species(1) in 0.024s, Organisms(1) in 1.464s, Peptides(130491) in 5.826s, Sequences(25403) in 1.657s and Peptide_tags(17285) in 15.441s total time took 17.2 seconds
+[[1]]
+initdb()
+
+[[2]]
+build_database( conn=conn_list,
+                file_location="data",
+                log_filename="log/initdb.log",
+                core_count=24)
+
+[[3]]
+tmp <- lapply(files[1:length(files)], process_one_file, max_peptide_length = max_peptide_length)
+
+[[4]]
+FUN(X[[i]], ...)
+
+[[5]]
+out <- tryCatch({
+        withCallingHandlers(populate_organism(conn,organism_info,max_peptide_length = max_peptide_length)
+                            ,error=function(e) {print(sys.calls())}
+                            ,warning=function(w) {print(sys.calls())
+                              invokeRestart("muffleWarning")}
+        )
+      },
+      error = function(m) { print(m) }
+      )
+
+[[6]]
+tryCatchList(expr, classes, parentenv, handlers)
+
+[[7]]
+tryCatchOne(expr, names, parentenv, handlers[[1L]])
+
+[[8]]
+doTryCatch(return(expr), name, parentenv, handler)
+
+[[9]]
+withCallingHandlers(populate_organism(conn,organism_info,max_peptide_length = max_peptide_length)
+                            ,error=function(e) {print(sys.calls())}
+                            ,warning=function(w) {print(sys.calls())
+                              invokeRestart("muffleWarning")}
+        )
+
+[[10]]
+withCallingHandlers(populate_organism(conn,organism_info,max_peptide_length = max_peptide_length)
+                            ,error=function(e) {print(sys.calls())}
+                            ,warning=function(w) {print(sys.calls())
+                              invokeRestart("muffleWarning")}
+        )
+
+[[11]]
+full_result <- parLapply("cl"=cl, "X" = range_test, "fun" = populate_second_step, chunk.size = 1, conn= conn, has_pathways=has_pathways, has_modules=has_modules)
+
+[[12]]
+do.call(c, clusterApply(cl = cl, x = splitList(X, nchunks), fun = lapply, 
+    FUN = fun, ...), quote = TRUE)
+
+[[13]]
+clusterApply(cl = cl, x = splitList(X, nchunks), fun = lapply, 
+    FUN = fun, ...)
+
+[[14]]
+staticClusterApply(cl, fun, length(x), argfun)
+
+[[15]]
+checkForRemoteErrors(val)
+
+[[16]]
+stop("one node produced an error: ", firstmsg, domain = NA)
+
+[[17]]
+.handleSimpleError(function(e) {print(sys.calls())}, "one node produced an error: Expression #3 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'dups.dup_count' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by [1055]", 
+    base::quote(checkForRemoteErrors(val)))
+
+[[18]]
+h(simpleError(msg, call))
+
+<simpleError in checkForRemoteErrors(val): one node produced an error: Expression #3 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'dups.dup_count' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by [1055]>
+Started processing 29159 with 25998 proteins, 1 enzymes, 1 db_links, and 765394 peptides
+$dbname
+[1] "candidate"
+
+$host
+[1] "localhost"
+
+$port
+[1] 3306
+
+$user
+[1] "msdba"
+
+$password
+[1] "MassSpec2021!"
+
+$dbname
+[1] "candidate"
+
+$host
+[1] "localhost"
+
+$port
+[1] 3306
+
+$user
+[1] "msdba"
+
+$password
+[1] "MassSpec2021!"
+
+$dbname
+[1] "candidate"
+
+$host
+[1] "localhost"
+
+$port
+[1] 3306
+
+$user
+[1] "msdba"
+
+$password
+[1] "MassSpec2021!"
+
+==========================Starting Build Database===============================
+Processed files in 'data', found 8 RData files
+Deleted the existing database, started at 2022-10-28 07:37:57, and finished at 2022-10-28 07:37:59, took a total duration of 2.063026 seconds
+Created the new database datamodel, started at 2022-10-28 07:37:59, and finished at 2022-10-28 07:38:09, took a total duration of 10.22747 seconds
+==========================Starting Organism Population===============================
+Started processing 9913 with 23844 proteins, 1 enzymes, 1 db_links, and 782592 peptides
+upload of peptides took 6707.2 seconds and all other tables took 7.1 seconds total time took 6710.7 seconds
+upload of Genus(1) in 0.525s, Species(1) in 0.029s, Organisms(1) in 1.659s, Peptides(652649) in 21.750s, Sequences(23843) in 1.826s and Peptide_tags(1168149) in 60.634s total time took 62.4 seconds
+population of peptide_map(7030604) in 505.154s, organisms_to_peptides(652649) in 37.138s and dblinks(1) in 0.542s, proteins(23844) in 15.882s, enzyme(0) in 0.005s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.003s, protein_modules(0) in 0.003s, peptides_filtered(31) in 0.024s, sequence_to_peptides(779477) in 131.016s, sequence_to_peptides_filtered(34) in 0.870s total time took 507.4 seconds
+Started at 2022-10-28 07:38:10, and finished at 2022-10-28 09:39:31, took a total duration of 7280.6 seconds
+Started processing 85681 with 24934 proteins, 1 enzymes, 1 db_links, and 662892 peptides
+upload of peptides took 5653.5 seconds and all other tables took 8.1 seconds total time took 5656.9 seconds
+upload of Genus(1) in 0.534s, Species(1) in 0.025s, Organisms(1) in 1.497s, Peptides(563249) in 22.785s, Sequences(24934) in 1.532s and Peptide_tags(183061) in 64.329s total time took 66.1 seconds
+population of peptide_map(6054382) in 455.266s, organisms_to_peptides(586056) in 31.839s and dblinks(1) in 0.524s, proteins(24934) in 13.455s, enzyme(0) in 0.005s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.003s, protein_modules(0) in 0.003s, peptides_filtered(6) in 0.024s, sequence_to_peptides(662236) in 90.142s, sequence_to_peptides_filtered(6) in 0.418s total time took 457.6 seconds
+Started at 2022-10-28 09:39:32, and finished at 2022-10-28 11:22:33, took a total duration of 6180.6 seconds
+Started processing 2711 with 28128 proteins, 1 enzymes, 1 db_links, and 633561 peptides
+upload of peptides took 5405.2 seconds and all other tables took 10.6 seconds total time took 5408.6 seconds
+upload of Genus(0) in 0.508s, Species(1) in 0.024s, Organisms(1) in 1.433s, Peptides(130491) in 5.515s, Sequences(25403) in 1.414s and Peptide_tags(17285) in 15.876s total time took 17.7 seconds
+population of peptide_map(1685177) in 127.010s, organisms_to_peptides(572368) in 33.510s and dblinks(1) in 0.379s, proteins(28128) in 16.246s, enzyme(0) in 0.005s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.004s, protein_modules(0) in 0.003s, peptides_filtered(5) in 0.035s, sequence_to_peptides(580147) in 87.665s, sequence_to_peptides_filtered(6) in 0.456s total time took 129.3 seconds
+Started at 2022-10-28 11:22:36, and finished at 2022-10-28 12:55:11, took a total duration of 5555.6 seconds
+Started processing 29159 with 25998 proteins, 1 enzymes, 1 db_links, and 765394 peptides
+upload of peptides took 6684.1 seconds and all other tables took 7.8 seconds total time took 6687.6 seconds
+upload of Genus(1) in 0.520s, Species(1) in 0.025s, Organisms(1) in 1.630s, Peptides(639587) in 26.111s, Sequences(25995) in 1.462s and Peptide_tags(98357) in 69.792s total time took 71.6 seconds
+population of peptide_map(6844991) in 505.925s, organisms_to_peptides(687216) in 37.825s and dblinks(1) in 0.530s, proteins(25998) in 18.333s, enzyme(0) in 0.004s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.003s, protein_modules(0) in 0.003s, peptides_filtered(31) in 0.023s, sequence_to_peptides(760280) in 132.162s, sequence_to_peptides_filtered(31) in 0.477s total time took 508.2 seconds
+Started at 2022-10-28 12:55:13, and finished at 2022-10-28 14:56:20, took a total duration of 7267.5 seconds
+Started processing 6565 with 33719 proteins, 1 enzymes, 1 db_links, and 1203116 peptides
+upload of peptides took 10433.7 seconds and all other tables took 12.5 seconds total time took 10438.0 seconds
+upload of Genus(0) in 0.511s, Species(1) in 0.029s, Organisms(1) in 2.742s, Peptides(687032) in 28.989s, Sequences(33703) in 2.077s and Peptide_tags(57775) in 74.892s total time took 76.7 seconds
+population of peptide_map(8270757) in 635.119s, organisms_to_peptides(876976) in 53.070s and dblinks(1) in 0.531s, proteins(33719) in 29.593s, enzyme(0) in 0.004s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.003s, protein_modules(0) in 0.002s, peptides_filtered(89) in 0.069s, sequence_to_peptides(1192456) in 230.452s, sequence_to_peptides_filtered(89) in 0.725s total time took 637.4 seconds
+Started at 2022-10-28 14:56:23, and finished at 2022-10-28 18:02:15, took a total duration of 11152.1 seconds
+Started processing 3988 with 31219 proteins, 1 enzymes, 1 db_links, and 680351 peptides
+upload of peptides took 5816.8 seconds and all other tables took 9.0 seconds total time took 5820.2 seconds
+upload of Genus(1) in 0.529s, Species(1) in 0.024s, Organisms(1) in 1.548s, Peptides(523942) in 22.620s, Sequences(31209) in 1.786s and Peptide_tags(22739) in 50.910s total time took 52.7 seconds
+population of peptide_map(6019534) in 453.903s, organisms_to_peptides(630447) in 33.068s and dblinks(1) in 0.527s, proteins(31219) in 20.158s, enzyme(0) in 0.005s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.003s, protein_modules(0) in 0.003s, peptides_filtered(11) in 0.024s, sequence_to_peptides(679850) in 102.305s, sequence_to_peptides_filtered(11) in 0.488s total time took 456.2 seconds
+Started at 2022-10-28 18:02:16, and finished at 2022-10-28 19:47:46, took a total duration of 6329.1 seconds
+Started processing 296 with 4324 proteins, 1 enzymes, 1 db_links, and 87078 peptides
+upload of peptides took 661.8 seconds and all other tables took 4.1 seconds total time took 663.8 seconds
+upload of Genus(1) in 0.508s, Species(1) in 0.028s, Organisms(1) in 0.163s, Peptides(77277) in 3.288s, Sequences(4324) in 0.261s and Peptide_tags(3719) in 8.250s total time took 10.1 seconds
+population of peptide_map(933207) in 67.494s, organisms_to_peptides(85668) in 4.729s and dblinks(1) in 0.387s, proteins(4324) in 0.825s, enzyme(0) in 0.004s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.003s, protein_modules(0) in 0.003s, peptides_filtered(0) in 0.006s, sequence_to_peptides(87039) in 7.037s, sequence_to_peptides_filtered(0) in 0.004s total time took 69.8 seconds
+Started at 2022-10-28 19:47:46, and finished at 2022-10-28 20:00:10, took a total duration of 743.7 seconds
+Started processing 8040 with 35973 proteins, 1 enzymes, 1 db_links, and 1344413 peptides
+upload of peptides took 11943.2 seconds and all other tables took 12.5 seconds total time took 11947.6 seconds
+upload of Genus(1) in 0.546s, Species(1) in 0.028s, Organisms(1) in 2.568s, Peptides(599895) in 26.900s, Sequences(35951) in 2.550s and Peptide_tags(19538) in 64.979s total time took 66.7 seconds
+population of peptide_map(7717420) in 658.548s, organisms_to_peptides(696618) in 48.383s and dblinks(1) in 0.564s, proteins(35973) in 35.570s, enzyme(0) in 0.005s, protein_to_dblinks(0) in 0.003s, protein_pathways(0) in 0.003s, protein_modules(0) in 0.002s, peptides_filtered(238) in 0.158s, sequence_to_peptides(1325878) in 270.907s, sequence_to_peptides_filtered(265) in 1.011s total time took 660.8 seconds
+Started at 2022-10-28 20:00:13, and finished at 2022-10-28 23:31:28, took a total duration of 12675.2 seconds
+Populated 8 organisms into the database, started at 2022-10-28 07:38:09, and finished at 2022-10-28 23:31:28, took a total duration of 57199.33 seconds
+==========================Starting Data Analysis===============================
+Populated strong_peptide_temp for all genus, started at 2022-10-28 23:31:28, and finished at 2022-10-28 23:32:58, took a total duration of 89.25229 seconds
+Populated strong_peptides for all genus, started at 2022-10-28 23:32:58, and finished at 2022-10-28 23:42:08, took a total duration of 550.6921 seconds
+Populated strong_peptide_counts for all organisms, started at 2022-10-28 23:42:08, and finished at 2022-10-28 23:42:55, took a total duration of 46.81456 seconds
+Generated strong peptide data, started at 2022-10-28 23:31:28, and finished at 2022-10-28 23:42:55, took a total duration of 686.8574 seconds
+Populated 8 overlaps, started at 2022-10-28 23:43:05 finished at 2022-10-28 23:45:29, took 144.586 seconds 
+id=1 took 8.223 s, id=2 took 23.704 s, id=3 took 23.242 s, id=4 took 33.528 s, id=5 took 36.040 s, id=6 took 8.799 s, id=7 took 1.149 s, id=8 took 9.374 s, 
+
+TRUEPopulated overlap_coefficient for 8 organisms, started at 2022-10-28 23:42:55, and finished at 2022-10-28 23:45:29, took a total duration of 154.2911 seconds
+Generated overlap coefficient data, started at 2022-10-28 23:42:55, and finished at 2022-10-28 23:45:30, took a total duration of 154.3904 seconds
+Created index for peptide_map table, started at 2022-10-28 23:45:30, and finished at 2022-10-28 23:52:22, took a total duration of 412.6942 seconds
+Optimized the database, started at 2022-10-28 23:45:30, and finished at 2022-10-28 23:52:22, took a total duration of 412.7636 seconds
+====Full Build of database, started at 2022-10-28 23:45:30, and finished at 2022-10-28 23:52:22, took a total duration of 58465.63 seconds====
+==========================Starting Build Database===============================
+Processed files in 'data', found 8 RData files
+==========================Starting Build Database===============================
+Processed files in 'data/RData', found 9 RData files
+Deleted the existing database, started at 2022-10-30 10:18:49, and finished at 2022-10-30 10:18:49, took a total duration of 0.08799529 seconds
+Created the new database datamodel, started at 2022-10-30 10:18:49, and finished at 2022-10-30 10:19:44, took a total duration of 54.96978 seconds
+==========================Starting Organism Population===============================
+Started processing U9913 with 23844 proteins, 1 enzymes, 1 db_links, and 782592 peptides

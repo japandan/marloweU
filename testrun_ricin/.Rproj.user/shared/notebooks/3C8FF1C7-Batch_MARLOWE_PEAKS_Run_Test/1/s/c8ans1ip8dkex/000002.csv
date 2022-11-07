@@ -1,0 +1,18 @@
+"0","```r
+peaks_output_path <- choose.files(caption = \"Select PEAKS de novo output csv\",
+                                  multi = FALSE)
+
+
+all_tags <-
+  batch_PEAKS_tags(
+    PEAKS_output_csv_path = peaks_output_path,
+    output_dir = tag_output_folder,
+    LC_threshold = 80,
+    min_ALC = 50,
+    min_tag_length = 5,
+    min_peptide_length = 6,
+    ppm_error = 15,
+    return_tags = TRUE
+  )
+
+```"

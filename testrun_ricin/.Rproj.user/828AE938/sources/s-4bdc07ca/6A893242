@@ -1,0 +1,26 @@
+{
+    "id": "6A893242",
+    "path": "~/R/marloweU/data/savetaxons.R",
+    "project_path": null,
+    "type": "r_source",
+    "hash": "0",
+    "contents": "",
+    "dirty": true,
+    "created": 1667234447126.0,
+    "source_on_save": false,
+    "relative_order": 8,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "18,66",
+        "scrollLine": "11"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1667236913,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1667236914179,
+    "read_only": false,
+    "read_only_alternatives": []
+}

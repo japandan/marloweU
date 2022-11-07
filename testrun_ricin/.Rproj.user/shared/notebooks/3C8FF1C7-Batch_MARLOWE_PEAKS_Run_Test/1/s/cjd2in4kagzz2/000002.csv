@@ -1,0 +1,24 @@
+"0","```r
+
+target_score_file_path <- score_files[[2]]
+
+#load overlap_mat
+# load()
+  
+omap <- organism_heatmap(score_file_path = target_score_file_path,
+                      overlap_matrix = overlap_mat,
+                      output_dir = \".\",
+                      output_type = \"jpeg\",
+                      min_org_hits = 1,
+                      min_pos_score = 1,
+                      width = 10,
+                      height = 7,
+                      units = \"in\")
+```"
+"1","[1] \"Starting Rcom_9_M4_AM_R1_7Mar16_Samwise_15-08-55\"
+"
+"1","Warning: `guides(<scale> = FALSE)` is deprecated. Please use `guides(<scale> = \"none\")` instead.
+"
+"0","```r
+plot(omap)
+```"

@@ -1,0 +1,37 @@
+"0","```r
+#overlap matrices and organism_metadata should already be loaded 
+filt_files <-
+  list.files(path = filtered_counts_folder,
+             pattern = \"_filt_sample_counts.csv\",
+             full.names = TRUE)
+
+score_files <- purrr::map(
+    filt_files,
+    run_organism_scoring,
+    fasta_for_filter = \"crap.fasta\",
+    organism_metadata_df = organism_metadata,
+    scoring_overlap_mat = overlap_mat_for_scoring,
+    output_dir = taxonomic_scores_output_folder,
+    Pthrsh = 0.4,
+    min_total_tags = 10,
+    min_total_strong_tags = 10,
+    min_organism_strong_tags = 1,
+    min_group_hits = 2,
+    export_matrix = TRUE
+  )
+```"
+"1","[1] \"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\"
+[1] \"Starting Dataset: Rcom_1_M0_AM_R1_7Mar16_Samwise_15-08-55\"
+[1] \"Starting with 49 tags.\"
+[1] \"Checking tags against crap.fasta\"
+[1] \"0 tags matched to the fasta and were removed. 49 remain.\"
+[1] \"Beginning strong tag filter\"
+[1] \"Starting with 49 tags.\"
+[1] \"45 strong tags and 5 organisms remain with min_organism_strong_tags = 1\"
+[1] \"Calculating taxonomic group scores...\"
+[1] \"assign_tags() has 45input tags.\"
+[1] \"1 taxonomic groups passed the minimum hits threshold of 2\"
+"
+"1","Error: Cannot open file for writing:
+* 'D:\marlowe_test\MARLOWE_Test\taxonomic_scores\Rcom_1_M0_AM_R1_7Mar16_Samwise_15-08-55_organism_scores.csv'
+"
