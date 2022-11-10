@@ -70,10 +70,10 @@ organism_heatmap <- function(score_file_path,
 
 
   if (!is.null(lineage_info_df)) {
-    
+
     assertthat::assert_that(is.data.frame(lineage_info_df),
                             msg = "lineage_info_df must be a dataframe.")
-    
+
     assertthat::assert_that("kegg_id" %in% colnames(lineage_info_df),
                             msg = "kegg_id column not found in lineage_info_df")
 
@@ -273,9 +273,12 @@ organism_heatmap <- function(score_file_path,
            output_type)
 
   #saving graph to output_dir
+  #adjusted paremeters for higher resolution
   ggplot2::ggsave(filename = output_filename,
                   path = normalizePath(output_dir),
                   plot = graph,
+                  device = output_type,
+                  dpi = 600,
                   ...)
 
   return(graph)

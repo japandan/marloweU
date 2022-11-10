@@ -1,6 +1,3 @@
-
-
-
 #' PEAKS tags from multiple source files
 #'
 #'

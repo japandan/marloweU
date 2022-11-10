@@ -663,7 +663,7 @@ batch_tags <- function(Novor_Output_File,
  tags_filenname <-
    gsub(novor_suffix, "_tags.RData", basename(Novor_Output_File), fixed = TRUE)
  tags_path <- paste(normalizePath(output_tag_dir), tags_filenname,
-                    sep = "\\")
+                    sep = "/")
 
  save(tags_mass_factor_df, file = tags_path)
 

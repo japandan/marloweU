@@ -359,6 +359,7 @@ select node_taxon_id, node_tax_name, node_rank,superkingdom,kingdom,subkingdom,s
   return(T)
 }
 
+## special function created to populate UniProt taxon data
 populate_taxon_id<-function(){
   # MySQL connection credentials.  These need to match your installation
   conn <- list(
