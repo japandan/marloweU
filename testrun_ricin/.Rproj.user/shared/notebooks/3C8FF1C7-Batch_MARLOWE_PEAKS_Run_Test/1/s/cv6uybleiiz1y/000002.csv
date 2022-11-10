@@ -1,8 +1,0 @@
-"0","```r
-# #must create variable named organism_metadata
-# metadata_file <-file.choose() 
-# load(metadata_file)
-# #must create variable named overlap_mat_for_scoring
-# scoring_overlap_file <- file.choose()
-# load(scoring_overlap_file)
-```"
