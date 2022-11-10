@@ -11,3 +11,5 @@ data-raw/proteome
 data-raw/errors
 data/RData
 data/
+data-raw/
+testrun_ricin
