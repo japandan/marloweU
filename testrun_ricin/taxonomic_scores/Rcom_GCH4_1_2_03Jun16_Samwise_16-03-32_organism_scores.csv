@@ -1,2 +1,0 @@
-kegg_id,organism_id,kegg_org_code,organism_name,species_name,genus_name,peptide_count,protein_count,strong_peptide_count,taxonomic_group,organism_hits,group_hits
-U3988,6,,Ricinus communis,communis,Ricinus,630447,31219,520219,4,654,654
